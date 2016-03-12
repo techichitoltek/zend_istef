@@ -1,0 +1,14 @@
+img.hero-thumbnail {
+	width:180px;
+	height:120px;
+}
+
+.hero-feature .h3, .hero-feature h3 {
+    font-size: 16px;
+    margin-top:0px;
+    color:#337ABB;
+}
+
+.hero-feature p {
+    font-size: 14px;
+}

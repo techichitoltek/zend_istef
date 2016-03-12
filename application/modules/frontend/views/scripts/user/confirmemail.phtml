@@ -1,0 +1,43 @@
+<?php
+$confirm_mail = $this->confirmvalide;
+debug($confirm_mail);
+?>
+
+		<div class="row">
+	        <div class="col-lg-12">
+              <div class="box box-info">
+                <div class="box-header with-border">
+                  <h3 class="box-title">Finaliser mon inscription</h3>
+                </div><!-- /.box-header -->
+                <!-- form start -->
+                <div class="box-body">
+					<!-- Jumbotron Header -->
+			        <header class="jumbotron hero-spacer">
+			            <h3>Validation de votre adresse email</h3>
+			            <?php if($confirm_mail){?>
+				            <p>Votre adresse email a été validée avec succès. Un email contenant le login permettant de vous connecter vous a été envoyé à l'adresse ci-dessous.</p>
+			            <?php } else { ?>
+				            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa, ipsam, eligendi, in quo sunt possimus non incidunt odit
+				             vero aliquid similique quaerat nam nobis illo aspernatur vitae fugiat numquam repellat.</p>
+			            <?php } ?>
+
+			            <p>
+			            	<?php if(!$confirm_mail){?>
+			            		<a class="btn btn-primary btn-large" href="<?=$this->url(array(),'home')?>">Retour à l'accueil</a>
+			            	<?php }?>
+			            	<a class="btn btn-primary btn-large" href="<?=$this->url(array(),'login')?>">Se connecter</a>
+			            </p>
+			        </header>
+			       <hr>
+              	</div><!-- /.box -->
+              </div>
+        </div>
+
+<script type="text/javascript">
+
+$(function(){
+
+
+});
+
+</script>

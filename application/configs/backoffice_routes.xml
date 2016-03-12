@@ -1,0 +1,9 @@
+<configdata>
+    <routes>
+        <generate type="Zend_Controller_Router_Route">
+            <route>generateModel/model/:table</route>
+            <defaults module="backoffices" controller="generate" action="generate"/>
+            <reqs table="[^\s]+"/>
+        </generate>
+    </routes>
+</configdata>

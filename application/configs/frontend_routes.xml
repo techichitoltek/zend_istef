@@ -1,0 +1,122 @@
+<configdata>
+    <routes>
+        <!-- INDEX POINT -->
+        <home type="Zend_Controller_Router_Route">
+            <route>/</route>
+            <defaults module="frontend" controller="index" action="index"/>
+        </home>
+
+        <home_acceuil type="Zend_Controller_Router_Route">
+            <route>/accueil</route>
+            <defaults module="frontend" controller="index" action="accueil"/>
+        </home_acceuil>
+
+
+        <login type="Zend_Controller_Router_Route">
+            <route>/login</route>
+            <defaults module="frontend" controller="profile" action="login"/>
+        </login>
+
+        <logout type="Zend_Controller_Router_Route">
+            <route>/logout</route>
+            <defaults module="frontend" controller="profile" action="logout"/>
+        </logout>
+
+
+
+        <!-- UTILISATEUR POINT -->
+        <user_accueil type="Zend_Controller_Router_Route">
+            <route>/user-accueil</route>
+            <defaults module="frontend" controller="user" action="accueil"/>
+        </user_accueil>
+
+        <user_addaccount type="Zend_Controller_Router_Route">
+            <route>/user-addaccount</route>
+            <defaults module="frontend" controller="user" action="addaccount"/>
+        </user_addaccount>
+
+        <user_confirmemail type="Zend_Controller_Router_Route">
+            <route>/user-confirmemail/:userId/:sign</route>
+            <defaults module="frontend" controller="user" action="confirmemail" userId="null" sign="null"/>
+        </user_confirmemail>
+
+
+        <!-- WEBSERVICE POINT -->
+        <webservice_cpville type="Zend_Controller_Router_Route">
+            <route>/ws/cpville</route>
+            <defaults module="frontend" controller="webservice" action="cpville"/>
+        </webservice_cpville>
+
+
+
+        <test_accueil type="Zend_Controller_Router_Route">
+            <route>/test-accueil</route>
+            <defaults module="frontend" controller="test" action="accueil"/>
+        </test_accueil>
+
+        <test_datelib type="Zend_Controller_Router_Route">
+            <route>/test-datelib</route>
+            <defaults module="frontend" controller="test" action="datelib"/>
+        </test_datelib>
+
+        <test_uploadsinglefile type="Zend_Controller_Router_Route">
+            <route>/test-uploadsinglefile</route>
+            <defaults module="frontend" controller="test" action="uploadsinglefile"/>
+        </test_uploadsinglefile>
+
+        <test_parsefile type="Zend_Controller_Router_Route">
+            <route>/test-parsefile</route>
+            <defaults module="frontend" controller="test" action="parsefile"/>
+        </test_parsefile>
+
+        <test_datatable type="Zend_Controller_Router_Route">
+            <route>/test-datatable</route>
+            <defaults module="frontend" controller="test" action="datatable"/>
+        </test_datatable>
+
+       <test_trycatch type="Zend_Controller_Router_Route">
+            <route>/test-trycatch</route>
+            <defaults module="frontend" controller="test" action="trycatch"/>
+        </test_trycatch>
+
+        <test_testdivers type="Zend_Controller_Router_Route">
+            <route>/test-divers</route>
+            <defaults module="frontend" controller="test" action="testdivers"/>
+        </test_testdivers>
+
+        <test_testdivers type="Zend_Controller_Router_Route">
+            <route>/test-ajax</route>
+            <defaults module="frontend" controller="test" action="testajax"/>
+        </test_testdivers>
+
+        <memo_css type="Zend_Controller_Router_Route">
+            <route>/memo-css</route>
+            <defaults module="frontend" controller="memo" action="css"/>
+        </memo_css>
+
+        <memo_javascript type="Zend_Controller_Router_Route">
+            <route>/memo-javascript</route>
+            <defaults module="frontend" controller="memo" action="javascript"/>
+        </memo_javascript>
+
+        <memo_php type="Zend_Controller_Router_Route">
+            <route>/memo-php</route>
+            <defaults module="frontend" controller="memo" action="php"/>
+        </memo_php>
+
+        <memo_zendcommon type="Zend_Controller_Router_Route">
+            <route>/memo-zend-common</route>
+            <defaults module="frontend" controller="memo" action="zendcommon"/>
+        </memo_zendcommon>
+
+        <memo_datatable type="Zend_Controller_Router_Route">
+            <route>/memo-datatable</route>
+            <defaults module="frontend" controller="memo" action="datatable"/>
+        </memo_datatable>
+
+        <memo_putty type="Zend_Controller_Router_Route">
+            <route>/memo-putty</route>
+            <defaults module="frontend" controller="memo" action="putty"/>
+        </memo_putty>
+    </routes>
+</configdata>

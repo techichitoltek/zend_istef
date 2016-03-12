@@ -1,0 +1,458 @@
+
+<h2>Lien et redirection</h2>
+<h3>Faire un lien vers un fichier css</h3>
+<div class="note">
+	<pre>
+&lt;link type="text/css" href="&lt;?php echo $this-&gt;serverUrl().$this-&gt;designUrl();?&gt;/css/style.css?&lt;?=mt_rand();?&gt;" rel="stylesheet"&gt; // mt_rand() force à charger fichier à chaque chargement de la page
+	</pre>
+</div>
+<h3>Faire un lien vers un fichier javascript</h3>
+<div class="note">
+	<pre>
+&lt;script src="&lt;?php echo $this-&gt;serverUrl().$this-&gt;designUrl();?&gt;/js/file.js?&lt;?=mt_rand();?&gt;"&gt;&lt;/script&gt; // mt_rand() force à à charger fichier à chaque chargement de la page
+	</pre>
+</div>
+<h3>Faire un lien vers un fichier vue depuis un fichier vue</h3>
+<div class="note">
+	<pre>
+&lt;php echo $this->render("view-folder/partials/file.phtml");?&gt;
+	</pre>
+</div>
+<h3>Faire un lien vers un fichier vue depuis le layout</h3>
+<div class="note">
+	<pre>
+&lt;?php echo $this->partial('partials/header.phtml'); ?&gt;
+	</pre>
+</div>
+<h3>Faire un lien vers une image</h3>
+<div class="note">
+	<pre>
+&lt;img src="&lt;?=$this-&gt;serverUrl().$this-&gt;designUrl();?&gt;/images/image.png"&gt; // pointe vers public/nommodule/default/images
+	</pre>
+</div>
+<h3>Faire un lien vers une route</h3>
+<div class="note">
+	<pre>
+&lt;a href="&lt;?=$this->url(array("validation"=>"0"),"feb_step4");?&gt;" &gt;texte lien&lt;/a&gt;
+	</pre>
+</div>
+<h3>Transmettre paramètre via URL</h3>
+<div class="note">
+	<pre>
+&lt;user_accueil type="Zend_Controller_Router_Route"&gt;
+  &lt;route&gt;/user-accueil/:param&lt;/route&gt;
+  &lt;defaults module="frontend" controller="user" action="accueil" param="null" /&gt;
+&lt;/user_accueil&gt;
+	</pre>
+</div>
+<h3>Récupérer paramètres URL via controller</h3>
+<div class="note">
+	<pre>
+$url_redirect = $this->_request->getParam("param", null); //  le deuxième paramètre de la fonction indique la valeur à renvoyer par défaut
+	</pre>
+</div>
+
+<h3>Redirection</h3>
+<div class="note">
+	<pre>
+$this->_redirect('/user-accueil');
+$this->getHelper("redirector")->gotoRoute(array("redirecturl"=>$url_redirect),"feb_login");
+	</pre>
+</div>
+
+
+
+<h2>Accéder aux paramètres</h2>
+<h3>Paramètres configuration (Fichier application.ini)</h3>
+<div class="note">
+<pre>
+$config = App_DI_Container::get('ConfigObject');
+$host = $config-&gt;resources-&gt;db-&gt;params-&gt;host;
+</pre>
+</div>
+<h3>Paramètres controller</h3>
+<div class="note">
+<pre>
+$moteur = Zend_Registry::get('controllerName');
+$action = Zend_Registry::get('actionName');
+</pre>
+</div>
+<h3>Paramètres portail</h3>
+<div class="note">
+<pre>
+$portailId = Zend_Registry::get('PortailId');
+$portailUrl = Zend_Registry::get('HTTP_HOST');
+</pre>
+</div>
+<h3>Pramètre repertoire dossier application</h3>
+<div class="note">
+<pre>
+On peut définir une constante identifiant le dossier via le fichier application/modules/nom_module/Bootstrap.php:
+
+
+class Frontend_Bootstrap extends App_Bootstrap_Abstract
+{
+	protected function _initConf(){
+		define("FRONTEND_MODULE","/frontend");
+		define("FRONTEND_PATH",ROOT_PATH."/application/modules".FRONTEND_MODULE);
+
+		// imports csv interfaces
+		define("FRONTEND_IMPORT_PATH",FRONTEND_MODULE."/data/importcsv");
+		define("FRONTEND_IMPORT_PATH_ABS",FRONTEND_PATH."/data/importcsv");
+	}
+
+On y fait appel avec le chemin absolu:
+
+$app_directory = FRONTEND_IMPORT_PATH_ABS;
+</pre>
+</div>
+<h3>ParamDefault & ParamCustom - Définir constante en bdd</h3>
+<div class="note">
+<pre>
+On défini la constante par défaut via la table <strong>zf_paramdefault</strong> :
+
+<img src="<?=$this->serverUrl().$this->designUrl();?>/images/memo_capture/zf_paramdefault.JPG">
+
+paramdefault_Name : nom du paramètre tel que référencé par l'application
+paramdefault_Scope : indiquer ici le nom du module en CAPITAL
+paramdefault_Value : valeur que prend le paramètre
+paramdefault_Commentaire : commentaire, toujours utile
+paramdefault_Type : mettre 1
+paramdefault_LevelAccess : mettre 1
+
+
+On peut également adapter la constante selon le portail (dev - prod ..) via la table <strong>zf_paramcustom</strong> :
+
+<img src="<?=$this->serverUrl().$this->designUrl();?>/images/memo_capture/zf_paramcustom.JPG">
+
+paramcustom_SiteId : indiquer ici l'id du portail (accessible depuis table <strong>zf_portailurl</strong>)
+
+
+Utilisation:
+
+$customParam = ParamCustom::param("MEDE.EBAT_CODE_PRODUIT","MEDE");
+</pre>
+</div>
+
+
+
+
+
+<h2>Tâches CRON - plannifiées</h2>
+<h3>Configurer le controller</h3>
+<div class="note">
+<pre>
+header('Content-type: text/html');
+ignore_user_abort(1);
+ini_set('max_execution_time', 0);
+ini_set('memory_limit', '-1');
+set_time_limit(0);
+</pre>
+</div>
+
+
+<h2>Opérations sur les fichiers</h2>
+<h3>Ecrire dans un fichier et le sauvegarder</h3>
+<div class="note">
+<pre>
+$filename = $simul ? "S_E-BTP_MARCHES-simulation_".$date->get("yyyyMMdd")."_INDEX.csv": "S_E-BTP_MARCHES_".$date->get("yyyyMMdd")."_INDEX.csv";  //  F_E-BTP_MARCHES_201501_1.csv
+$this->_saveFile($filename,$str,1-$simul,"ftp",MEDE_STATS_PATH_ABS);
+</pre>
+</div>
+
+
+<h2>Templates - Fichiers vue</h2>
+<h3>Layout HTML5</h3>
+<div class="note">
+	<pre>
+&lt;?php
+/**
+ * Default layout, used to render most parts of the application
+ *
+ * @package frontend_layouts
+ * @copyright RCWEB
+ */
+
+//Configure the title
+$this-&gt;headTitle()-&gt;setSeparator(' - ');
+$this-&gt;headTitle("Demande d'hébergement d'un SI auprès de la DIRISI");
+
+//Add the ZFDebug Toolbar only if enabled in app.ini
+if(Zend_Controller_Front::getInstance()-&gt;hasPlugin('ZFDebug_Controller_Plugin_Debug')){
+    $this-&gt;headScript()-&gt;appendFile($this-&gt;designUrl() . '/js/zfdebug.js');
+    $this-&gt;headLink()-&gt;appendStylesheet($this-&gt;designUrl() . '/css/zfdebug.css');
+}
+
+//Autoload js files
+$this-&gt;AutoloadResources();
+?&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta http-equiv="content-type" content="text/html; charset=utf-8" /&gt;
+    &lt;meta http-equiv="content-style-type" content="text/css" /&gt;
+    &lt;meta http-equiv="content-script-type" content="text/javascript" /&gt;
+	&lt;meta http-equiv="X-UA-Compatible" content="IE=edge"&gt;
+	&lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+    &lt;meta name="description" content=""&gt;
+    &lt;meta name="keywords" content=""&gt;
+	&lt;meta name="author" content=""&gt;
+	&lt;link rel="icon" href="&lt;?php echo $this-&gt;serverUrl().$this-&gt;designUrl();?&gt;/images/circloid/required/ico/favicon.ico"&gt;
+	&lt;!-- Fav and touch icons --&gt;
+	&lt;link rel="apple-touch-icon-precomposed" sizes="144x144" href="&lt;?php echo $this-&gt;serverUrl().$this-&gt;designUrl();?&gt;/images/circloid/required/ico/apple-touch-icon-144-precomposed.png"&gt;
+	&lt;link rel="apple-touch-icon-precomposed" sizes="114x114" href="&lt;?php echo $this-&gt;serverUrl().$this-&gt;designUrl();?&gt;/images/circloid/required/ico/apple-touch-icon-114-precomposed.png"&gt;
+	&lt;link rel="apple-touch-icon-precomposed" sizes="72x72" href="&lt;?php echo $this-&gt;serverUrl().$this-&gt;designUrl();?&gt;/images/circloid/required/ico/apple-touch-icon-72-precomposed.png"&gt;
+	&lt;link rel="apple-touch-icon-precomposed" href="&lt;?php echo $this-&gt;serverUrl().$this-&gt;designUrl();?&gt;/images/circloid/required/ico/apple-touch-icon-57-precomposed.png"&gt;
+	&lt;link rel="shortcut icon" href="&lt;?php echo $this-&gt;serverUrl().$this-&gt;designUrl();?&gt;/images/circloid/required/ico/favicon.png"&gt;
+
+    &lt;?php echo $this-&gt;headTitle() . PHP_EOL;?&gt;
+
+	&lt;!-- Required CSS Files --&gt;
+	&lt;!-- fichier css --&gt;
+
+    &lt;?php echo $this-&gt;headLink() . PHP_EOL;?&gt;
+
+    &lt;!--[if lte IE 7]&gt;
+        &lt;link href="/css/ie7.css" media="screen" rel="stylesheet" type="text/css" &gt;
+    &lt;![endif]--&gt;
+
+&lt;/head&gt;
+&lt;body&gt;
+
+
+&lt;?php
+$moteur = Zend_Registry::get('controllerName');
+$action = Zend_Registry::get('actionName');
+?&gt;
+
+
+&lt;?php // echo $this-&gt;flashMessenger();?&gt;
+&lt;?php echo $this-&gt;layout()-&gt;content;?&gt;
+&lt;?php echo $this-&gt;partial('partials/footer.phtml'); ?&gt;
+
+
+    &lt;!-- add the js files --&gt;
+    &lt;?php echo $this-&gt;headScript() . PHP_EOL;?&gt;
+    &lt;?php //echo $this-&gt;jQuery() . PHP_EOL; ?&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+	</pre>
+</div>
+
+<h3>Layout XHTML 1.0 Strict</h3>
+<div class="note">
+<pre>
+&lt;?php
+/**
+ * Default layout, used to render most parts of the application
+ *
+ * @package frontend_layouts
+ * @copyright RCWEB
+ */
+
+//Configure the title
+$this-&gt;headTitle()-&gt;setSeparator(' - ');
+$this-&gt;headTitle('MyZendLib');
+
+//Add generic CSS files
+$this-&gt;headLink()-&gt;appendStylesheet($this-&gt;designUrl() . '/css/master.css');
+
+// add jQuery ressources
+$this-&gt;headLink()-&gt;appendStylesheet($this-&gt;designUrl() . '/css/jquery-ui.css');
+$this-&gt;headScript()-&gt;appendFile($this-&gt;designUrl() . '/js/jquery.min.js');
+$this-&gt;headScript()-&gt;appendFile($this-&gt;designUrl() . '/js/jquery-ui.min.js');
+
+// custom css file
+
+
+//Add the ZFDebug Toolbar only if enabled in app.ini
+if(Zend_Controller_Front::getInstance()-&gt;hasPlugin('ZFDebug_Controller_Plugin_Debug')){
+    $this-&gt;headScript()-&gt;appendFile($this-&gt;designUrl() . '/js/zfdebug.js');
+    $this-&gt;headLink()-&gt;appendStylesheet($this-&gt;designUrl() . '/css/zfdebug.css');
+}
+
+//Autoload js files
+$this-&gt;AutoloadResources();
+?&gt;
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"&gt;
+&lt;head&gt;
+    &lt;meta http-equiv="content-type" content="text/html; charset=utf-8" /&gt;
+    &lt;meta http-equiv="content-style-type" content="text/css" /&gt;
+    &lt;meta http-equiv="content-script-type" content="text/javascript" /&gt;
+
+    &lt;meta name="description" content=""&gt;
+    &lt;meta name="keywords" content=""&gt;
+
+    &lt;link rel="shortcut icon" type="image/ico" href="/images/favicon.png" /&gt;
+
+    &lt;?php echo $this-&gt;headTitle() . PHP_EOL;?&gt;
+    &lt;?php echo $this-&gt;headLink() . PHP_EOL;?&gt;
+
+    &lt;!--[if lte IE 7]&gt;
+        &lt;link href="/css/ie7.css" media="screen" rel="stylesheet" type="text/css" &gt;
+    &lt;![endif]--&gt;
+
+
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div id="page"&gt;
+        &lt;div id="header"&gt;
+            &lt;div class="wrapper"&gt;
+                &lt;?php echo $this-&gt;partial('partials/header.phtml'); ?&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div id="content"&gt;
+            &lt;div class="wrapper"&gt;
+                &lt;?php echo $this-&gt;flashMessenger();?&gt;
+                &lt;?php echo $this-&gt;render('partials/left-side-menu.phtml');?&gt;
+                &lt;div id="view-content"&gt;
+                	&lt;?php echo $this-&gt;layout()-&gt;content;?&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div id="footer"&gt;
+            &lt;div class="wrapper"&gt;
+                &lt;?php echo $this-&gt;partial('partials/footer.phtml'); ?&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;!-- add the js files --&gt;
+    &lt;?php echo $this-&gt;headScript() . PHP_EOL;?&gt;
+    &lt;?php //echo $this-&gt;jQuery() . PHP_EOL; ?&gt;
+    &lt;?php if(Zend_Registry::get('IS_PRODUCTION')) : ?&gt;
+        &lt;?php echo $this-&gt;partial('partials/ga.phtml'); ?&gt;
+    &lt;?php endif; ?&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+</div>
+<h3>Définir un template via le controller</h3>
+<div class="note">
+<pre>
+$this->_helper->layout()->setLayout('empty'); // empty pour application/modules/nom_module/views/layouts/empty.phtml
+</pre>
+</div>
+
+<h2>Mail</h2>
+<h3>Définir un template mail</h3>
+<div class="note">
+	<pre>
+Se rendre dans le répertoire <strong>application/modules/nom_module/views/emails/</strong>
+- créer un fichier alerte-mail-common.phtml
+- créer un fichier alerte-amil-common.subject.phtml
+
+Ajouter une entrée dans la table <strong>zf_emails</strong>
+
+<img src="<?=$this->serverUrl().$this->designUrl();?>/images/memo_capture/zf_emails.JPG">
+
+	</pre>
+</div>
+<h3>Utiliser template mail</h3>
+<div class="note">
+	<pre>
+$mail = new App_Mail("MEDE.ALERTE.COMMON");
+$mail-&gt;AddAddress('youradresse@mail.fr');
+$mail-&gt;subject = 'Suivi MAJ ent_abovalidation entreprises ayant souscrit un abonnement avant le 15/06/2015';
+$mail-&gt;content = $liste;
+$sent = true;
+try {
+	$mail-&gt;send();
+	print 'envoye';
+} catch (Exception $e){
+	$sent = false;
+ 	print 'failed: '.$e-&gt;getMessage();
+
+}
+	</pre>
+</div>
+
+<h2>Gérer les logs</h2>
+<h3>Php log via putty</h3>
+<div class="note">
+	<pre>
+nano /var/log/php/php_errors.log
+	</pre>
+</div>
+<h3>Php log local zend_server</h3>
+<div class="note">
+	<pre>
+chemin: C:\Program Files (x86)\Zend\ZendServer\logs\php.log
+	</pre>
+</div>
+<h3>Insérer les logs en bdd via Zend_log</h3>
+<div class="note">
+	<pre>
+        $config = App_DI_Container::get('ConfigObject');
+        $host = $config-&gt;resources-&gt;db-&gt;params-&gt;host;
+        $dbname = $config-&gt;resources-&gt;db-&gt;params-&gt;dbname;
+        $username = $config-&gt;resources-&gt;db-&gt;params-&gt;username;
+        $pwd = $config-&gt;resources-&gt;db-&gt;params-&gt;password;
+
+        $parametres = array ('host'     =&gt; $host,
+        		'username' =&gt; $username,
+        		'password' =&gt; $pwd,
+        		'dbname'   =&gt; $dbname,
+        		'charset'  =&gt; 'utf8');
+
+
+        $db = Zend_Db::factory('PDO_MYSQL', $parametres);
+        $prefix = 'log_';
+
+        // ici on va indiquer les champs de table correspondant
+
+        $columnMapping = array(
+        		$prefix.'niveau' =&gt; 'priority', // natif
+        		$prefix.'niveauName' =&gt; 'priorityName', // natif
+        		$prefix.'dateAdded' =&gt; 'timestamp', // natif
+        		$prefix.'comment' =&gt; 'message', // natif
+        		$prefix.'userId' =&gt; 'userId',
+        		$prefix.'operation' =&gt; 'operation',
+        		$prefix.'cibleIdent' =&gt; 'cibleIdent',
+        		$prefix.'cibleId' =&gt; 'cibleId',
+        		$prefix.'oldValue' =&gt; 'oldValue',
+        		$prefix.'newValue' =&gt; 'newValue',
+        );
+
+        $writer = new Zend_Log_Writer_Db($db,
+        		'mede_backadmin_log',
+        		$columnMapping);
+
+
+        $logger = new Zend_Log($writer);
+
+		// Pour chaque données non gérée nativement par Zend_log on utilise setEventItem
+        $logger-&gt;setEventItem('userId', $backadminUser-&gt;getId());
+    	$logger-&gt;setEventItem('operation', 'Modification info utilisateur backoffice');
+    	$logger-&gt;setEventItem('cibleIdent', 0);
+    	$logger-&gt;setEventItem('cibleId', $updateUserId);
+    	$logger-&gt;info('changement numéro téléphone et/ou adresse mail pour '.$updateBackadminUser-&gt;getBackadminUserInfos()-&gt;getuserinfos_prenom().' '.$updateBackadminUser-&gt;getBackadminUserInfos()-&gt;getuserinfos_nom(). ' (utilisateur du Back office)');
+	</pre>
+</div>
+
+<h2>Zend Modules</h2>
+<h3>Utiliser les classes d'un autre module que le courant</h3>
+<div class="note">
+	Dans le fichier ./Application/Bootstrap.php editer la fonction protected function _initPaths() comme suit:
+	<pre>
+    protected function _initPaths(){
+        $paths = array(
+                ROOT_PATH . '/library/App/Models',
+        		APPLICATION_PATH . '/modules/mede/Models',
+                get_include_path() ,
+        );
+
+        set_include_path(implode(PATH_SEPARATOR, $paths));
+    }
+	</pre>
+</div>
+
+
+<h2>Gérer les dates avec Zend_Date</h2>
+<h3>Définir la locale france</h3>
+<div class="note">
+	<pre>
+$now = new Zend_Date(new Zend_Locale('fr_FR'));
+	</pre>
+</div>

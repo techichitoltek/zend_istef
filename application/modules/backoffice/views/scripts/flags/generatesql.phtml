@@ -1,0 +1,27 @@
+<?php
+$inserts = $this->inserts;
+$module = $this->mod;
+
+if($module){
+    if (empty($inserts) && $module) {
+        echo 'No new flags / privileges found.';
+    }else{
+
+        $date = new Zend_Date();
+        echo "<pre>";
+        echo '-- Flag And Flipper data' . PHP_EOL;
+        echo '-- Report generated at ' . $date . PHP_EOL;
+
+        foreach ($inserts as $insert) {
+            echo $insert . PHP_EOL;
+        }
+        echo "</pre>";
+    }
+}
+
+$listeModules = Zend_Registry::get("listeModules");
+foreach ($listeModules as $module){
+?>
+    <br><a href="<?=$this->baseUrl()?>/flags/generatesql/?mod=<?=$module?>">Générer les flags et privilèges pour <?=$module?></a>
+<?php
+}

@@ -1,0 +1,13 @@
+<?php
+$parseFile = new ParseFile();
+$linkArray = $parseFile->_parseRoutes();
+?>
+<ul class="link-list">
+<?php
+foreach ($linkArray as $k => $v):
+?>
+<li><a href="<?=$v;?>"><?=$v;?></a></li>
+<?php
+endforeach;
+?>
+</ul>

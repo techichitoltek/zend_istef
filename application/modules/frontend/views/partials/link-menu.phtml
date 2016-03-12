@@ -1,0 +1,10 @@
+<?php
+$parseFile = new ParseFile();
+$linkArray = $parseFile->_parseRoutes();
+?>
+<ul class="link-list">
+<li><a href="<?=$this->url(array(),'login')?>">Se connecter</a></li>
+<li><a href="<?=$this->url(array(),'user_addaccount')?>">Créer un compte</a></li>
+</ul>
+
+

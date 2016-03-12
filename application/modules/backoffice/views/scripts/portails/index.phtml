@@ -1,0 +1,38 @@
+<?php
+$listePortails = $this->listePortails;
+?>
+<div class="data-table">
+    <table cellspacing="0" cellpadding="0">
+        <thead>
+            <tr>
+                <th scope="col" class="first"><span>ID</span></th>
+                <th scope="col"><span>Code</span></th>
+                <th scope="col"><span>Libelle</span></th>
+                <th scope="col"><span>Commentaire</span></th>
+                <th scope="col"><span>Environnement</span></th>
+                <!-- <th scope="col" class="last"><span>Action</span></th> -->
+            </tr>
+        </thead>
+        <tbody>
+        <?php
+        foreach ($listePortails as $portail): /* @var $portail Portail */
+        ?>
+            <tr>
+                <th scope="row"><?=$portail->getPortail_id()?></th>
+                <td><?=$portail->getPortail_code()?></td>
+                <td><?=$portail->getPortail_libelle()?></td>
+                <td><?=$portail->getPortail_commentaire()?></td>
+                <td><?=$portail->getPortail_environnement()?></td>
+                <!-- <td>
+                    <ul class="actions">
+                        <li><a href="#" class="edit">Edit</a></li>
+                        <li><a href="#" class="delete">Delete</a></li>
+                    </ul>
+                </td> -->
+            </tr>
+        <?php
+        endforeach;
+        ?>
+        </tbody>
+    </table>
+</div>

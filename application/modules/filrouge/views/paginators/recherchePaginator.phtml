@@ -1,0 +1,49 @@
+<?php
+/**
+ * Holds the recherche paginator view
+ *
+ *
+ * @category mede
+ * @package mede_paginators
+ * @copyright RCWEB
+ */
+?>
+<?php if ($this->pageCount):
+$getUrlSend = (isset($_GET['hiddeFakForm']) && $_GET['hiddeFakForm']==1) ? '?hiddeFakForm=1':null ;
+?>
+
+	  <nav>
+	    <ul class="pagination" style="float:left;">
+
+	    <!-- Previous page link -->
+		<?php if (isset($this->previous)): ?>
+			<li><a href="<?php echo $this->url(array('page' => $this->previous,"nb"=>$this->nb)); ?><?=$getUrlSend;?>"><span aria-hidden="true">&laquo;</span><span class="sr-only">Précédent</span></a></li>
+        <?php  endif; ?>
+
+
+        <!-- Numbered page links -->
+        <?php foreach ($this->pagesInRange as $page): ?>
+            <?php if ($page != $this->current): ?>
+            	<li><a href="<?php echo $this->url(array('page' => $page,"nb"=>$this->nb)); ?><?=$getUrlSend;?>"><?php echo $page; ?></a></li>
+            <?php else: ?>
+            	<li class="active"><a href="<?php echo $this->url(array('page' => $page,"nb"=>$this->nb)); ?><?=$getUrlSend;?>"><?php echo $page; ?></a></li>
+            <?php endif; ?>
+        <?php endforeach; ?>
+
+        <?php /*if($this->lastPageInRange < $this->last): */?>
+<!--                 <span>...</span>
+                <a href="<?php echo $this->url(array('page' => $this->last,"nb"=>$this->nb)); ?><?=$getUrlSend;?>"><?php echo $this->last?></a> -->
+            <?php /*endif */ ?>
+
+
+        <!-- Next page link -->
+        <?php if (isset($this->next)): ?>
+        	<li><a href="<?php echo $this->url(array('page' => $this->next,"nb"=>$this->nb)); ?><?=$getUrlSend;?>"><span aria-hidden="true">&raquo;</span><span class="sr-only">Suivant</span></a></li>
+        <?php endif; ?>
+
+
+		</ul>
+	  </nav>
+
+
+<?php endif; ?>

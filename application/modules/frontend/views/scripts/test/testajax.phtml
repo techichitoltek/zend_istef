@@ -1,0 +1,50 @@
+<script type="text/javascript">
+<!--
+
+
+$(function() {
+
+	// sauvegarder la recherche en tant que profil via la page de résultats
+	$('#saveSearchHasProfil').on('click', function(event){
+		event.preventDefault();
+
+
+		var profilName = $('#recherche_libelle').val();
+		var profilAlerte = ($('input[name="recherche_mail"]').is(':checked' )) ? 1:0 ;
+		var checkNomProfil = checkThisRegex(profilName,/^[\sa-zA-Z0-9ÀÂÇÈÉÊËÎÔÙÛàâçèéêëîôöùû\.\(\)\[\]\"\'\-\_,;:\/!\?]{2,100}/); // ebtp_lib.js
+		if(checkNomProfil){
+			//--- check nom profil existe deja
+			jQuery.ajax({
+			    url: "/ajxrofileameexist",
+			    type: "POST",
+			    dataType: 'json',
+			    data:  {
+			        'libelle': profilName,
+			    },
+			    success: function(data){
+						$('.overlayown').show();
+						jQuery.ajax({
+						    url: "/saveprofil",
+						    type: "POST",
+						    dataType: 'json',
+						    data:  {
+						        'nomprofil': profilName,
+						    },
+						    success: function(data){
+								if(data.rechercheid!=0){
+									window.location.href="/profils";
+								} else {
+									// echec of save profil
+									alert('echec de l\'enregistrement du profil.');
+								}
+						    },
+						    error:function(data){
+						    	alert('une erreur est survenue durant l\'enregistrement de votre profil de veille.');
+						    },
+						});
+			    },
+			    error:function(data){
+			    	alert('une erreur est survenue durant l\'enregistrement de votre profil de veille.');
+			    },
+			});
+	});

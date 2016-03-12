@@ -1,0 +1,229 @@
+<h2>Pré-requis</h2>
+<h3>Notes</h3>
+<div class="note">
+<span class="warning">Attention, Chromium ne supporte pas TableTools (boutons exports ne s'affichent pas)</span>
+<br>
+<span class="warning">Désactiver jquery.min.js du layout zend<br><br>
+	<pre>
+//$this->headScript()->appendFile($this->designUrl() . '/js/jquery.min.js');
+	</pre>
+	</span>
+</div>
+
+<h2>Installation</h2>
+<h3>Installer DataTable + DataTable tools</h3>
+<div class="note">
+<ol>
+<li><strong>Télécharger DataTable et placer le dossier entier dans public/nomModule/default/lib :</strong> <a target="_blank" href="https://www.datatables.net/download/download">Télécharger DataTables-1.10.7</a></li>
+<li><strong>Remplacer la version Jquery.min.js du layout zend par :</strong>
+	<pre>
+	&lt;script src="&lt;?php echo $this-&gt;serverUrl().$this-&gt;designUrl();?&gt;/lib/DataTables-1.10.7/media/js/jquery.js?&lt;?=mt_rand();?&gt;"&gt;&lt;/script&gt;
+	</pre>
+</li>
+<li><strong>Fichiers css:</strong>
+	<pre>
+&lt;!-- DataTables CSS --&gt;
+&lt;link type="text/css" href="&lt;?php echo $this-&gt;serverUrl().$this-&gt;designUrl();?&gt;/lib/DataTables-1.10.7/media/css/jquery.dataTables.css?&lt;?=mt_rand();?&gt;" rel="stylesheet"&gt;
+&lt;link type="text/css" href="&lt;?php echo $this-&gt;serverUrl().$this-&gt;designUrl();?&gt;/lib/DataTables-1.10.7/extensions/TableTools/css/dataTables.tableTools.min.css?&lt;?=mt_rand();?&gt;" rel="stylesheet" /&gt;
+
+	</pre>
+</li>
+<li><strong>Fichier js:</strong>
+	<pre>
+&lt;!-- DataTables --&gt;
+&lt;script src="&lt;?php echo $this-&gt;serverUrl().$this-&gt;designUrl();?&gt;/lib/DataTables-1.10.7/media/js/jquery.dataTables.js?&lt;?=mt_rand();?&gt;"&gt;&lt;/script&gt;
+&lt;script src="&lt;?php echo $this-&gt;serverUrl().$this-&gt;designUrl();?&gt;/lib/DataTables-1.10.7/extensions/TableTools/js/dataTables.tableTools.min.js?&lt;?=mt_rand();?&gt;"&gt;&lt;/script&gt;
+
+	</pre>
+</li>
+<li><strong>HTML</strong>
+	<pre>
+&lt;table id="table_id" class="display"&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th&gt;Column 1&lt;/th&gt;
+            &lt;th&gt;Column 2&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Row 1 Data 1&lt;/td&gt;
+            &lt;td&gt;Row 1 Data 2&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Row 2 Data 1&lt;/td&gt;
+            &lt;td&gt;Row 2 Data 2&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
+&lt;/table&gt;
+	</pre>
+</li>
+<li><strong>HTML Javascript</strong>
+	<pre>
+&lt;script type="text/javascript" language="javascript" class="init"&gt;
+$(document).ready(function() {
+ 	$('#table_id').DataTable( {
+        "sDom": "T&lt;'clear'&gt;&lt;'row-fluid'&lt;'span6'l&gt;&lt;'span6'f&gt;r&gt;t&lt;'row-fluid'&lt;'span6'i&gt;&lt;'span6'p&gt;&gt;",
+        "oTableTools": {
+            "sSwfPath": "default/lib/DataTables-1.10.7/extensions/TableTools/swf/copy_csv_xls_pdf.swf",
+            "aButtons": [
+                  "copy",
+                  "csv",
+                  "xls",
+                  "print"
+            ]
+          },
+        "iDisplayLength": 50,
+        "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+        "aaSorting": []
+
+
+ 	} );
+ } );
+&lt;/script&gt;
+	</pre>
+</li>
+<li></li>
+</ol>
+</div>
+
+<h2>Traduire les éléments graphiques en français</h2>
+<h3>Configurer DataTable : Fichier jquery.dataTable.js</h3>
+<div class="note">
+Editer le fichier jquery.dataTable.js.<br>
+C'est via ce fichier que l'on va pouvoir traduir les éléments de pagination.<br>
+Trouver <strong>"oPaginate": {</strong> vers ligne 11010 et configurer les valeurs suivantes: sLengthMenu - sSearch - sEmptyTable - sZeroRecords - sInfo - sInfoEmpty - sFirst - sLast - sNext - sPrevious
+</div>
+
+<h3>Configurer DataTable Tools : Fichier dataTables.tableTools.js</h3>
+<div class="note">
+Editer le fichier jquery.dataTable.js.<br>
+C'est via ce fichier que l'on va pouvoir définir les paramètres par défaut des outils d'exports.<br>
+Trouver <strong>"TableTools.DEFAULTS": {</strong> vers ligne 3081 et configurer.<br>
+Repertoire swf: <strong>"sSwfPath":        "default/lib/DataTables-1.10.7/extensions/TableTools/swf/copy_csv_xls_pdf.swf",</strong>
+</div>
+
+
+<h3><i class="fa fa-thumbs-o-up"></i> Configurer via dataTables.bootstrap.js</h3>
+<div class="note">
+<pre>
+$.extend( true, $.fn.dataTable.defaults, {
+	"sDom":
+		"&lt;'row'&lt;'col-xs-6'l&gt;&lt;'col-xs-6'f&gt;r&gt;"+
+		"T"+
+		"&lt;'row'&lt;'col-xs-6'i&gt;&lt;'col-xs-6 koala'p&gt;&gt;",
+
+	"oLanguage": {
+		"sLengthMenu": "Afficher _MENU_ &eacute;lements",
+		"sSearch": "Rechercher&nbsp",
+		"sEmptyTable": "Aucun r&eacute;sultat.",
+		"sZeroRecords": "Aucun résultat",
+		"sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+		"sInfoFiltered": "(filtr&eacute; depuis _MAX_ &eacute;l&eacute;ments)",
+		"sInfoEmpty": "Aucun élément à afficher",
+	    "oPaginate": {
+	        "sFirst":    "Premier",
+	        "sLast":    "Dernier",
+	        "sNext":    "Suivant",
+	        "sPrevious": "Pr&eacute;c&eacute;dent"
+	      },
+	}
+} );
+</pre>
+</div>
+<h3>Configurer via init du tableau</h3>
+<div class="note">
+<pre>
+&lt;script type="text/javascript" language="javascript" class="init"&gt;
+$(document).ready(function() {
+ 	$('#table_id').DataTable( {
+        "sDom": "T&lt;'clear'&gt;&lt;'row-fluid'&lt;'span6'l&gt;&lt;'span6'f&gt;r&gt;t&lt;'row-fluid'&lt;'span6'i&gt;&lt;'span6'p&gt;&gt;",
+    	"oLanguage": {
+    		"sLengthMenu": "Afficher _MENU_ &eacute;lements",
+    		"sSearch": "Rechercher&nbsp",
+    		"sEmptyTable": "Aucun r&eacute;sultat.",
+    		"sZeroRecords": "Aucun résultat",
+    		"sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+    		"sInfoEmpty": "Aucun élément à afficher",
+    	    "oPaginate": {
+    	        "sFirst":    "Premier",
+    	        "sLast":    "Dernier",
+    	        "sNext":    "Suivant",
+    	        "sPrevious": "Pr&eacute;c&eacute;dent"
+    	      },
+    	},
+        "oTableTools": {
+        	"sSwfPath": "default/lib/DataTables-1.10.7/extensions/TableTools/swf/copy_csv_xls_pdf.swf",
+            // CDN : "sSwfPath": "http://cdn.datatables.net/tabletools/2.2.2/swf/copy_csv_xls.swf",
+	        "aButtons": [
+                  "copy",
+                  "csv",
+                  "xls",
+                  "print"
+            ]
+          },
+        "iDisplayLength": 50,
+        "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+        "aaSorting": []
+ 	} );
+ } );
+&lt;/script&gt;
+</pre>
+<strong>2 - Configurer le fichier jquery.dataTable.js:</strong><br><br>
+
+</div>
+
+<h2>Tri sur les colonnes</h2>
+<h3>Désactiver le tri sur la 1ère colonne</h3>
+<div class="note">
+"aoColumns": [ { "bSortable": false }, null....
+</div>
+
+<h3>Gestion du tri date avec autres caractères (pas de date)</h3>
+<div class="note">
+jQuery.extend(jQuery.fn.dataTableExt.oSort, {
+	/* dates */
+	"date-uk-pre": function ( a ) {
+    if(a=='&lt;i class="fa fa-minus" style="color:#666;"$gt;&lt;/i$gt;'){
+      a='01/01/2000';
+    }
+	 var ukDatea = a.split('/');
+	 return (ukDatea[2] + ukDatea[1] + ukDatea[0]) * 1;
+	},
+</div>
+
+
+<h2>Export</h2>
+<h3>Ne pas exporter la 1ère ligne d'entête du tableau</h3>
+<div class="note">
+dans le fichier dataTables.tableTools.js chercher :  _fnGetDataTablesData
+et modifier ce bloc:
+<br>
+	<pre>
+          /*
+          * Header
+          */
+          if ( oConfig.bHeader )
+          {
+               aRow = [];
+
+               for ( i=0, iLen=dt.aoColumns.length ; i&lt;iLen ; i++ )
+               {
+                    if ( aColumnsInc[i] )
+                    {
+                         sLoopData = dt.aoColumns[i].sTitle.replace(/\n/g," ").replace( /&lt;.*?&gt;/g, "" ).replace(/^\s+|\s+$/g,"");
+                         sLoopData = this._fnHtmlDecode( sLoopData );
+
+                         aRow.push( this._fnBoundData( sLoopData, oConfig.sFieldBoundary, regex ) );
+                    }
+               }
+               // ne pas afficher la 1ere ligne d'entete du tableau
+               if(i&lt;iLen-1){
+                    aData.push( aRow.join(oConfig.sFieldSeperator) );
+               }
+
+          }
+
+	</pre>
+	</span>
+</div>

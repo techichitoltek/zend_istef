@@ -1,0 +1,32 @@
+<configdata>
+<routes>
+
+    <!-- index controller -->
+    <index_accueil type="Zend_Controller_Router_Route">
+        <route>/accueil</route>
+        <defaults module="filrouge" controller="index" action="index" page="accueil" />
+    </index_accueil>
+
+    <!-- api controller -->
+    <api_index type="Zend_Controller_Router_Route">
+        <route>/api/index</route>
+        <defaults module="filrouge" controller="api" action="index" />
+    </api_index>
+
+    <api_callapi type="Zend_Controller_Router_Route">
+        <route>/api/callapi</route>
+        <defaults module="filrouge" controller="api" action="callapi" />
+    </api_callapi>
+
+    <api_getincident type="Zend_Controller_Router_Route">
+        <route>/api/getincident/:typeresponse</route>
+        <defaults module="filrouge" controller="api" action="getincident" typeresponse="null" />
+    </api_getincident>
+
+    <api_addsignal type="Zend_Controller_Router_Route">
+        <route>/api/addsignal</route>
+        <defaults module="filrouge" controller="api" action="addsignal" />
+    </api_addsignal>
+
+</routes>
+</configdata>

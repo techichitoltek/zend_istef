@@ -1,0 +1,107 @@
+<?php
+/**
+ * Default layout, used to render most parts of the application
+ *
+ * @package frontend_layouts
+ * @copyright RCWEB
+ */
+
+//Configure the title
+$this->headTitle()->setSeparator(' - ');
+$this->headTitle('MyZendLib');
+
+//Add generic CSS files
+$this->headLink()->appendStylesheet($this->designUrl() . '/css/master.css');
+
+// add jQuery ressources
+$this->headLink()->appendStylesheet($this->designUrl() . '/css/jquery-ui.css');
+//$this->headScript()->appendFile($this->designUrl() . '/js/jquery.min.js');
+$this->headScript()->appendFile($this->designUrl() . '/js/jquery-ui.min.js');
+
+// custom css file
+$this->headLink()->appendStylesheet($this->designUrl() . '/css/font-awesome-4.3.0/css/font-awesome.min.css');
+$this->headLink()->appendStylesheet($this->designUrl() . '/css/myzendlib.css');
+
+// down counter
+$this->headLink()->appendStylesheet($this->designUrl() . '/css/downcount.css');
+
+// down counter
+$this->headLink()->appendStylesheet($this->designUrl() . '/css/downcount.css');
+
+//Add the ZFDebug Toolbar only if enabled in app.ini
+if(Zend_Controller_Front::getInstance()->hasPlugin('ZFDebug_Controller_Plugin_Debug')){
+    $this->headScript()->appendFile($this->designUrl() . '/js/zfdebug.js');
+    $this->headLink()->appendStylesheet($this->designUrl() . '/css/zfdebug.css');
+}
+
+//Autoload js files
+$this->AutoloadResources();
+?>
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="content-style-type" content="text/css" />
+    <meta http-equiv="content-script-type" content="text/javascript" />
+
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+    <link rel="shortcut icon" type="image/ico" href="/images/favicon.png" />
+
+	<!-- jquery lib -->
+	<script src="<?php echo $this->serverUrl().$this->designUrl();?>/lib/DataTables-1.10.7/media/js/jquery.js?<?=mt_rand();?>"></script>
+
+	<!-- downcounter -->
+	<script src="<?php echo $this->serverUrl().$this->designUrl();?>/js/downcount.js?<?=mt_rand();?>"></script>
+
+
+    <?php echo $this->headTitle() . PHP_EOL;?>
+    <?php echo $this->headLink() . PHP_EOL;?>
+
+    <!--[if lte IE 7]>
+        <link href="/css/ie7.css" media="screen" rel="stylesheet" type="text/css" >
+    <![endif]-->
+
+
+</head>
+<body>
+
+<?php echo $this->flashMessenger();?>
+
+
+
+    <div id="page">
+        <div id="header">
+            <div class="wrapper">
+                <?php echo $this->partial('partials/header.phtml'); ?>
+            </div>
+        </div>
+        <div id="content">
+            <div class="wrapper">
+                <?php // echo $this->flashMessenger();?>
+                <?php echo $this->render('partials/left-side-menu.phtml');?>
+                <div id="view-content">
+                	<?php echo $this->layout()->content;?>
+                </div>
+            </div>
+        </div>
+        <div id="footer">
+            <div class="wrapper">
+                <?php echo $this->partial('partials/footer.phtml'); ?>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <!-- add the js files -->
+    <?php echo $this->headScript() . PHP_EOL;?>
+    <?php //echo $this->jQuery() . PHP_EOL; ?>
+    <?php if(Zend_Registry::get('IS_PRODUCTION')) : ?>
+        <?php echo $this->partial('partials/ga.phtml'); ?>
+    <?php endif; ?>
+</body>
+</html>

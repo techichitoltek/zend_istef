@@ -1,0 +1,37 @@
+<h2>Maths</h2>
+<h3>Ajustement (float) pourcentage par la somme (100 ou x)</h3>
+<div class="note">
+	<pre>
+    function getNiceRoundPercentSum($params, $error, $correct){
+    	$rapportError = round($correct - $error,2);
+    	$i=0;
+    	foreach ($params as $k =&gt; $v){
+    		$a = substr($v,-2);
+    		$a = (float)$a;
+    		$c = (filter_var($rapportError, FILTER_VALIDATE_FLOAT) && $rapportError &gt; 0) ? $a:'-'.$a;
+    		$c = (float)$c;
+    		if($a == $rapportError){
+    			$i++;
+    			$correctValue = $correct+$c;
+    			$params[$k] = $correct;
+    			break;
+    		}
+    	}
+        if(!$i){
+    		$a = '0.'.substr($rapportError,-2);
+    		$a = (float) $a;
+    		$c = (filter_var($rapportError, FILTER_VALIDATE_FLOAT) && $rapportError &gt; 0) ? $a:'-'.$a;
+    		$c = (float)$c;
+    		$correctValue = $params[0]+$c;
+    		$params[0] = $correctValue;
+    	}
+    	return $params;
+    }
+	</pre>
+	<span class="underline">Utilisation</span><br>
+	<pre>
+	$params = array(47.29,21.71,31.01);
+	$testSum = 47.29+21.71+31.01; // 100.01
+	$nicePercent = getNiceRoundPercentSum($params, $testSum, 100); // $params: tableau de valeurs à traiter, $testSum: la somme incorrecte des valeurs du tableau, 100: le paramètre 100 le résultat attendu.
+	</pre>
+</div>

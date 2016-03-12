@@ -1,0 +1,40 @@
+<?php
+$listePortailUrl = $this->listePortailUrl;
+?>
+<div class="data-table">
+    <table cellspacing="0" cellpadding="0">
+        <thead>
+            <tr>
+                <th scope="col" class="first"><span>ID</span></th>
+                <th scope="col"><span>Url</span></th>
+                <th scope="col"><span>Code</span></th>
+                <th scope="col"><span>Libelle</span></th>
+                <th scope="col"><span>Commentaire</span></th>
+                <th scope="col"><span>Environnement</span></th>
+                <!-- <th scope="col" class="last"><span>Action</span></th> -->
+            </tr>
+        </thead>
+        <tbody>
+        <?php
+        foreach ($listePortailUrl as $portailUrl): /* @var $portailUrl PortailUrl */
+        ?>
+            <tr>
+                <th scope="row"><?=$portailUrl->getPortailurl_id()?></th>
+                <th><?=$portailUrl->getPortailurl_url()?></th>
+                <td><?=$portailUrl->getPortail()->getPortail_code()?></td>
+                <td><?=$portailUrl->getPortail()->getPortail_libelle()?></td>
+                <td><?=$portailUrl->getPortail()->getPortail_commentaire()?></td>
+                <td><?=$portailUrl->getPortail()->getPortail_environnement()?></td>
+                <!-- <td>
+                    <ul class="actions">
+                        <li><a href="#" class="edit">Edit</a></li>
+                        <li><a href="#" class="delete">Delete</a></li>
+                    </ul>
+                </td> -->
+            </tr>
+        <?php
+        endforeach;
+        ?>
+        </tbody>
+    </table>
+</div>

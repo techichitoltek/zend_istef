@@ -1,0 +1,36 @@
+<h2>Général</h2>
+<h3>Supprimer le outline sur tout les éléments</h3>
+<div class="note">
+	<pre>
+* {
+	outline:0px !important;
+	-webkit-appearance:none;
+}
+	</pre>
+	<span class="warning">Attention, ne pas utiliser sur certains éléments de formulaire</span>
+</div>
+
+
+<h3>Utiliser le selector not multiple</h3>
+<div class="note">
+	<pre>
+*:not(span):not(h4){
+	color:red;
+}
+	</pre>
+</div>
+
+
+<h3>Prise en compte border/marge/padding dans la taille de l'élément</h3>
+<div class="note">
+	<p>Evite de devoir recalculer la taille d'un élément lorsque l'on modifie les marges ou les border</p><br>
+	<pre>
+* {
+box-sizing: border-box;
+-moz-box-sizing: border-box;
+-webkit-box-sizing: border-box;
+}
+	</pre>
+</div>
+
+

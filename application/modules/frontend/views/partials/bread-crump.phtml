@@ -1,0 +1,22 @@
+<style>
+#myzend-header ul {
+float:left;
+margin:0 0 0 5px;
+}
+#myzend-header ul li {
+display:inline;
+line-height:60px;
+color:#ffffff;
+}
+</style>
+
+<?php
+$moteur = Zend_Registry::get('controllerName');
+$action = Zend_Registry::get('actionName');
+?>
+
+
+<ul>
+<li><?=$moteur;?> /</li>
+<li><?=$action;?></li>
+</ul>

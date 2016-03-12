@@ -1,0 +1,343 @@
+
+<?php
+$form_addaccount = $this->form_addaccount;
+
+//TEST
+
+
+
+/*     	$select = "<select class='form-control'>";
+
+    	$modCpville = new Cpville();
+    	$matchcp = $modCpville->getListeByCodePost('12400');
+    	foreach ($matchcp as $cpville): *//* @var $cpville Cpville */
+    		/*$select .= "<option value='".$cpville->getVille_code_commune()."'>".$cpville->getVille_nom_reel()."</option>";
+    	endforeach;
+
+    	$select .= "</select>";
+    	debug($select); */
+
+/*- titre produit (tronqué à partir de xx caractères)
+- image
+- prix départ ou prix en cours (montant du dernier bid)
+- + xx EUR de frais de livraison ou livraison gratuite
+- il reste xx jours ( ex : il reste 1j4h (Dimanche, 12h26 ou aujourd'hui 21:00)
+
+formulaire ajout utilisateur
+
+mot de passe
+nom
+prenom
+telephone
+mail
+penser à faire cgu dans form (checkbox)
+is vendeur
+vendeur type
+cp
+ville --> ajax ou web service pour ce qui suit
+code departement
+code region
+code pays
+adresse1
+adresse2
+date ajout
+*/
+?>
+
+
+
+		<div class="row">
+	        <div class="col-lg-12">
+              <div class="box box-info">
+                <div class="box-header with-border">
+                  <h3 class="box-title">Ajouter un compte utilisateur</h3>
+                  <?php
+                  if($form_addaccount->hasErrors()){
+					echo '<br>erreur dans le formulaire!!!!!';
+				  } else {
+					echo '<br>Formulaire VALIDE';
+				  }
+                  ?>
+
+
+
+                </div><!-- /.box-header -->
+                <!-- form start -->
+                <div class="box-body">
+
+                <?php if($this->valideform){?>
+                  <div class="alert alert-info alert-dismissable">
+                    <h4><i class="icon fa fa-info"></i> Compte en cours d'activation</h4>
+                    Un email de confirmation vous a été envoyé à l'adresse <strong><?=$this->mailsend;?></strong>.<br>
+                    Veuillez cliquer sur le lien afin d'activer et commencer à utiliser votre compte.
+                  </div>
+                <?php } else { ?>
+                <form <?=$form_addaccount->renderFormHtml()?> class="common form-horizontal" role="form">
+   				<?php echo $form_addaccount->renderHiddenFields();?>
+
+                  <div class="box-body">
+
+                  <!-- nom -->
+                    <div class="form-group <?php if($this->err_nom){?>has-error<?}?>"> <!-- has-error -->
+                      <label for="inputEmail3" class="col-sm-2 control-label">Nom</label>
+                      <div class="col-sm-10">
+                        <?php if($this->err_nom){ echo '<span class="error"><i class="fa fa-times-circle-o"></i>    '.$this->err_nom.'</span>'; }?>
+                      	<?= $form_addaccount->nom->renderViewHelper();?>
+                        <!-- <input type="text" class="form-control" id="inputEmail3" placeholder="" maxlength="255"> -->
+                      </div>
+                    </div>
+
+ 					<!-- prenom -->
+                    <div class="form-group <?php if($this->err_prenom){?>has-error<?}?>">
+                      <label for="inputEmail3" class="col-sm-2 control-label">Prénom</label>
+                      <div class="col-sm-10">
+                      	<?php if($this->err_prenom){ echo '<span class="error"><i class="fa fa-times-circle-o"></i>    '.$this->err_prenom.'</span>'; }?>
+                      	<?= $form_addaccount->prenom->renderViewHelper();?>
+                        <!-- <input type="text" class="form-control" id="inputEmail3" placeholder="" maxlength="255"> -->
+                      </div>
+                    </div>
+
+ 					<!-- mot de passe -->
+                   <div class="form-group <?php if($this->err_password){?>has-error<?}?>">
+                      <label for="inputPassword3" class="col-sm-2 control-label">Mot de passe</label>
+                      <div class="col-sm-10">
+                      	<?php if($this->err_password){ echo '<span class="error"><i class="fa fa-times-circle-o"></i>    '.$this->err_password.'</span>'; }?>
+                      	<?= $form_addaccount->password->renderViewHelper();?>
+                        <!-- <input type="password" class="form-control" id="inputPassword3" placeholder="" maxlength="40"> -->
+                      </div>
+                    </div>
+
+                   <!-- confirm mot de passe -->
+                   <div class="form-group <?php if($this->err_passwordconfirm){?>has-error<?}?>">
+                      <label for="inputPassword3" class="col-sm-2 control-label">Confirmez</label>
+                      <div class="col-sm-10">
+                      	<?php if($this->err_passwordconfirm){ echo '<span class="error"><i class="fa fa-times-circle-o"></i>    '.$this->err_passwordconfirm.'</span>'; }?>
+                      	<?= $form_addaccount->passwordconfirm->renderViewHelper();?>
+                        <!-- <input type="password" class="form-control" id="inputPassword3" placeholder="" maxlength="40"> -->
+                      </div>
+                    </div>
+
+ 					<!-- Type de compte -->
+                    <div class="form-group <?php if($this->err_typeaccount){?>has-error<?}?>">
+                      <label for="inputEmail3" class="col-sm-2 control-label">Type de compte</label>
+                      <div class="col-sm-10">
+                      	<?php if($this->err_typeaccount){ echo '<span class="error"><i class="fa fa-times-circle-o"></i>    '.$this->err_typeaccount.'</span>'; }?>
+                      	<?= $form_addaccount->typeaccount->renderViewHelper();?>
+<!--
+                          <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+                          Compte ACHETEUR (GRATUIT)
+                          <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+                          Compte ACHETEUR + VENDEUR (payant)
+-->
+                      </div>
+                    </div>
+                    <div style="clear:both;"></div>
+
+                    <!-- SECTION CACHE -->
+
+ 					<!-- Type de vendeur -->
+                    <div id="group-vendeur" class="form-group <?php if($this->err_typevendeur){?>has-error<?}?>" style="display:none;">
+                      <label for="inputEmail3" class="col-sm-2 control-label">Type de vendeur</label>
+                      <div class="col-sm-10">
+                      	  <?php if($this->err_typevendeur){ echo '<span class="error"><i class="fa fa-times-circle-o"></i>    '.$this->err_typevendeur.'</span>'; }?>
+                      	  <?= $form_addaccount->typevendeur->renderViewHelper();?>
+<!--
+                          <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+                          Particulier
+                          <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+                          Professionnel
+-->
+                      </div>
+                    </div>
+                    <div style="clear:both;"></div>
+
+                    <!-- FIN SECTION CACHE -->
+
+                    <!-- GEOLOC -->
+
+                    <!-- code postal -->
+                    <div id="group-cp" class="form-group <?php if($this->err_cp){?>has-error<?}?>">
+                      <label for="inputEmail3" class="col-sm-2 control-label">Code postal</label>
+                      <div class="col-sm-10">
+                      	<span class="error" id="error-cp" style="display:none;"></span>
+                      	<?php if($this->err_cp){ echo '<span class="error"><i class="fa fa-times-circle-o"></i>    '.$this->err_cp.'</span>'; }?>
+                      	<?= $form_addaccount->cp->renderViewHelper();?>
+                        <!-- <input type="text" class="form-control" id="inputEmail3" placeholder="" maxlength="5"> -->
+                      </div>
+                    </div>
+
+
+ 					<!-- ville -->
+                    <div class="form-group <?php if($this->err_ville){?>has-error<?}?>">
+                      <label for="inputEmail3" class="col-sm-2 control-label">Ville</label>
+                      <div class="col-sm-10" id="">
+                      	<?= $form_addaccount->ville->renderViewHelper();?>
+						<!-- <select id="ville" name="ville" class='form-control'></select> -->
+                      </div>
+                    </div>
+
+
+ 					<!-- adresse1 -->
+                    <div class="form-group <?php if($this->err_adresse1){?>has-error<?}?>">
+                      <label for="inputEmail3" class="col-sm-2 control-label">Adresse 1</label>
+                      <div class="col-sm-10">
+                      	<?php if($this->err_adresse1){ echo '<span class="error"><i class="fa fa-times-circle-o"></i>    '.$this->err_adresse1.'</span>'; }?>
+                      	<?= $form_addaccount->adresse1->renderViewHelper();?>
+                        <!-- <input type="text" class="form-control" id="inputEmail3" placeholder="" maxlength="255"> -->
+                      </div>
+                    </div>
+
+ 					<!-- adresse2 -->
+                    <div class="form-group <?php if($this->err_adresse2){?>has-error<?}?>">
+                      <label for="inputEmail3" class="col-sm-2 control-label">Adresse 2</label>
+                      <div class="col-sm-10">
+                      <?php if($this->err_adresse2){ echo '<span class="error"><i class="fa fa-times-circle-o"></i>    '.$this->err_adresse2.'</span>'; }?>
+                      <?= $form_addaccount->adresse2->renderViewHelper();?>
+                        <!-- <input type="text" class="form-control" id="inputEmail3" placeholder="" maxlength="255"> -->
+                      </div>
+                    </div>
+
+                    <!-- FIN GEOLOC -->
+
+
+ 					<!-- téléphone -->
+                    <div class="form-group <?php if($this->err_phone){?>has-error<?}?>">
+                      <label for="inputEmail3" class="col-sm-2 control-label">Téléphone</label>
+                      <div class="col-sm-10">
+                      	<?php if($this->err_phone){ echo '<span class="error"><i class="fa fa-times-circle-o"></i>    '.$this->err_phone.'</span>'; }?>
+                      	<?= $form_addaccount->phone->renderViewHelper();?>
+                        <!-- <input type="email" class="form-control" id="inputEmail3" placeholder=""> -->
+                      </div>
+                    </div>
+
+ 					<!-- email -->
+                    <div class="form-group <?php if($this->err_mail){?>has-error<?}?>">
+                      <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+                      <div class="col-sm-10">
+                      <?php if($this->err_mail){ echo '<span class="error"><i class="fa fa-times-circle-o"></i>    '.$this->err_mail.'</span>'; }?>
+                      	<?= $form_addaccount->mail->renderViewHelper();?>
+                        <!-- <input type="email" class="form-control" id="inputEmail3" placeholder=""> -->
+                      </div>
+                    </div>
+
+ 					<!-- check CGU -->
+                    <div class="form-group <?php if($this->err_checkCGU){?>has-error<?}?>">
+                      <div class="col-sm-offset-2 col-sm-10">
+                        <div class="checkbox">
+                          <label>
+                          <?= $form_addaccount->checkCGU->renderViewHelper();?> Je reconnais avoir pris connaisance des CGU...
+                          <?php if($this->err_checkCGU){ echo '<br><span class="error"><i class="fa fa-times-circle-o"></i>    '.$this->err_checkCGU.'</span>'; }?>
+                            <!-- <input type="checkbox"> Je reconnais avoir pris connaisance des CGU... -->
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+
+
+<!-- error style
+                    <div class="form-group           has-error">
+                      <label class="col-sm-2 control-label" for="inputError">  <i class="fa fa-times-circle-o"></i>    Input with error</label>
+                      <div class="col-sm-10">
+                      	<input type="text" class="form-control" id="inputError" placeholder="Enter ...">
+                      </div>
+                    </div>
+-->
+<!--
+
+                    <div class="form-group">
+                      <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+                      <div class="col-sm-10">
+                        <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+                      <div class="col-sm-10">
+                        <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="col-sm-offset-2 col-sm-10">
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox"> Remember me
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+
+-->
+
+
+                  </div><!-- /.box-body -->
+                  <div class="box-footer">
+                    <button type="submit" class="btn btn-default">Cancel</button>
+                    <button type="submit" class="btn btn-info pull-right">Créer mon compte</button>
+                  </div><!-- /.box-footer -->
+                </form>
+				<?php } ?>
+
+
+              </div><!-- /.box -->
+            </div>
+        </div>
+
+<script type="text/javascript">
+
+
+function chgCommune(){
+	console.log('chCommune in action');
+	if($('#cp').val() != ''){
+		jQuery.ajax({
+		    url: "/ws/cpville",
+		    type: "POST",
+		    dataType: 'json',
+		    data:  {
+		        'search_cp': $('#cp').val(), /*$('#cp').val()*/
+		    },
+		    success: function(data){
+		    	console.log(data.villes);
+				if(data.isvalid=='1'){
+					$('#ville').html(data.villes);
+				} else {
+					$('#group-cp').addClass('has-error');
+					$('#error-cp').html('<i class="fa fa-times-circle-o"></i>    '+data.villes).show();
+				}
+		    },
+		    error:function(data){
+			    alert(data.villes);
+		    },
+		});
+	}
+}
+
+$(document).ready(function(){
+	<?php if($this->showvendeur){?>
+	console.log('show vendeur');
+		$('#group-vendeur').show();
+	<?php } ?>
+
+});
+
+$(function(){
+
+	// typeaccount
+    $('input[type=radio][name=typeaccount]').change(function() {
+        if (this.value == '0') {
+            $('#group-vendeur').hide();
+        }
+        else if (this.value == '1') {
+        	$('#group-vendeur').show();
+        }
+    });
+    <?php if($this->err_typevendeur){?>
+    		$('#group-vendeur').show();
+    <?php } ?>
+
+
+});
+
+
+</script>

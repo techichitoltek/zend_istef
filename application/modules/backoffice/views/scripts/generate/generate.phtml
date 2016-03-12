@@ -1,0 +1,140 @@
+<?php
+$table = $this->table;
+$info = $this->tableInfo;
+debug($info);
+$objet = $this->objet;
+$fieldPrefixe = $this->fieldPrefixe;
+$objetName = strtolower($this->objet);
+
+$version = "2.0";
+$tagVariable = "/*** VARIABLE ***/
+
+/*** /VARIABLE ***/";
+?>
+<pre>
+
+/**
+ *  models/Db/<?=str_replace('_','/',$objet)?>.php
+*/
+
+/**
+ * Générateur version <?=$version?>
+
+ */
+class Db_<?=$objet?> extends App_Model_Db {
+
+    public function __construct()
+    {
+        $this->_myDbClassName       = "Db_<?=$objet?>";
+        $this->_myDbPrimary         = "<?=$info['primary'][1]?>";
+        $this->_myMetierClassName   = "<?=$objet?>";
+        $this->_myDbTableName       = "<?=$info['name']?>";
+        $this->_myDbFieldPrefix     = "<?=$fieldPrefixe?>";
+
+        parent::__construct();
+    }
+
+     function myFullSelectBuild(){
+        $select = $this->select()->setIntegrityCheck(false);
+        return $select;
+     }
+
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+/**
+ *  models/Metier/<?=str_replace('_','/',$objet)?>.php
+ */
+
+
+/**
+ * Générateur version <?=$version?>
+
+ */
+class <?=$objet?> extends App_Model_Std {
+
+<?//=$tagVariable?>
+
+    /* Champs de la table */
+<font color="red">
+    <?php
+    $txt = "";
+    foreach($info["cols"] as $col){
+        $default = '""';
+        //Zend_Debug::dump($info['metadata'][$col]);
+        if($info['metadata'][$col]['DEFAULT'] === NULL && $info['metadata'][$col]['NULLABLE'] == true){
+            $default = "null";
+        }elseif($info['metadata'][$col]['DEFAULT'] === NULL && $info['metadata'][$col]['NULLABLE'] == false){
+            $default = '""';
+        }elseif($info['metadata'][$col]['DEFAULT'] == "0"){
+            $default = '0';
+        }elseif($info['metadata'][$col]['DEFAULT']){
+            $default = $info['metadata'][$col]['DEFAULT'];
+        }
+
+        if($info['metadata'][$col]['DATA_TYPE'] == "varchar" && is_numeric($default)){
+            $default = '"'.$default.'"';
+        }
+        if($col == $info['primary'][1]){
+        $txt .= 'protected $'.$col.' = 0;
+    ';
+        }elseif($col == $fieldPrefixe."_dateAdded" || $col == $fieldPrefixe."_dateUpdated"){
+        $txt .= 'protected $'.$col.' = null;
+    ';
+        }elseif($default == "0000-00-00 00:00:00"){
+        $txt .= 'protected $'.$col.' = "'.$default.'";
+    ';
+        }else{
+        $txt .= 'protected $'.$col.' = '.$default.';
+    ';
+        }
+    }
+    echo $txt;
+    ?>
+</font>
+
+    /* /Champs de la table */
+
+    public function __construct($id = false,$full = false,$champ="")
+    {
+        parent::__construct();
+        $this->_myDbClassName       = "Db_<?=$objet?>";
+        $this->_myDbPrimary         = "<?=$info['primary'][1]?>";
+        $this->_myMetierClassName   = "<?=$objet?>";
+        $this->_myDbTableName       = "<?=$info['name']?>";
+        $this->_myDbFieldPrefix     = "<?=$fieldPrefixe?>";
+
+        if($id) $this->loadById($id,$full,$champ);
+    }
+
+
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+
+
+<?php
+foreach($info["cols"] as $col){
+?>
+	/**
+	* @param <?=$info['metadata'][$col]['DATA_TYPE']?> $<?=$col;?>
+
+	*/
+	public function set<?=ucwords($col);?>($<?=$col;?>)
+	{
+	    $this-><?=$col;?> = $<?=$col;?>;
+	}
+
+	/**
+	* @return the $<?=$col;?>
+
+	*/
+	public function get<?=ucwords($col);?>()
+	{
+	    return $this-><?=$col;?>;
+	}
+
+<?php } ?>
+
+}
+</pre>

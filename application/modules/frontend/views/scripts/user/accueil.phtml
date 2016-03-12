@@ -1,0 +1,22 @@
+ACCUEIL UTILISATEUR AUTHENTIFIE
+<br>
+-------------------------
+<br>
+
+<?php
+$user = $this->user; /* @var $user User */
+if($user->getId()){
+	debug('utilisateur connecte: '.$user->getUserInfos()->getUserinfos_nom());
+}
+?>
+
+<?php if($user->getId()){ ?>
+	<a href="<?=$this->url(array(),'logout')?>">Se déconnecter</a>
+<?php } else { ?>
+	<a href="<?=$this->url(array(),'user_addaccount')?>">Créer un compte</a>
+	<br>
+	<a href="">Se connecter</a>
+	<br>
+	<a href="">Consulter les enchères</a>
+<?php } ?>
+

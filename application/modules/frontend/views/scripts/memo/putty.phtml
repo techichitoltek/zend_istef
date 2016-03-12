@@ -1,0 +1,56 @@
+<h2>Info serveur</h2>
+<h3>Taille disque</h3>
+<div class="note">
+	<pre>
+du -h			//To show all directories size including sub directories
+du -sh			//To calculate the current directory size you are in (-s stand for summary)
+du -sh *		//To show all the 1 level sub directories size (which you are not interested at sub sub directories.)
+du -sh /home	//To show the size of specific directory
+du -sh /home/*	//To show the size of all sub directories of a specific directory
+	</pre>
+</div>
+
+
+<h3>Tâches CRON via putty</h3>
+<div class="note">
+<pre>
+<i>Se connecter sudo su en SSH via putty et se placer dans le répertoire de l'application </i>
+
+Visualiser les tâches:
+<strong>crontab -e</strong>
+
+<img src="<?=$this->serverUrl().$this->designUrl();?>/images/memo_capture/putty_crontab.JPG">
+
+Chaque entrée de la table (chaque ligne) correspond à une tâche à exécuter et doit respecter cette notation :
+
+mm hh jj MMM JJJ tâche
+mm représente les minutes (de 0 à 59)
+hh représente l'heure (de 0 à 23)
+jj représente le numéro du jour du mois (de 1 à 31)
+MMM représente l'abréviation du nom du mois (jan, feb, ...) ou bien le numéro du mois (de 1 à 12)
+JJJ représente l'abréviation du nom du jour ou bien le numéro du jour dans la semaine :
+0 = Dimanche
+1 = Lundi
+2 = Mardi
+...
+6 = Samedi
+7 = Dimanche (représenté deux fois pour les deux types de semaine)
+
+<a class="siteurl" target="_blank" href="https://fr.wikipedia.org/wiki/Cron">Wikipedia CRON</a>
+
+Modifier le fichier:
+<span class="warning">Attention, ne pas utiliser de raccourci clavier standards (type ctrl+v) ni le clavier numérique</span>
+Faire la modif sur la ligne désiree
+faire un ctrl x + O (pour sauver)
+enter (pour quitter editeur)
+
+</pre>
+</div>
+
+<h2>Gérer les logs</h2>
+<h3>Php log via putty</h3>
+<div class="note">
+	<pre>
+nano /var/log/php/php_errors.log
+	</pre>
+</div>

@@ -1,0 +1,46 @@
+<?php
+function inverse($x) {
+    if (!$x) {
+        throw new Exception('Division par zéro.');
+    }
+    return 1/$x;
+}
+
+try {
+    //echo inverse(5) . "\n";
+    //echo inverse(0) . "\n";
+} catch (Exception $e) {
+    echo 'Exception reçue : ',  $e->getMessage(), "\n";
+}
+
+// Continue execution
+//echo "Bonjour le monde !\n";
+
+
+
+
+$string = "beautiful";
+$time = "winter";
+
+$str = 'This is a $string $time morning!';
+echo $str. "<br>";
+
+//eval(     "\$str = \"	$str	\";"    );
+//eval(     "\$toto = \"	$str	\";"    );
+$array = array();
+eval(     "\$str = \"	$str	\";"    );
+
+echo '<pre>';
+print_r($array);
+
+//echo $str;
+//echo $toto;
+
+function trycatchthis(){
+
+}
+
+
+
+
+?>

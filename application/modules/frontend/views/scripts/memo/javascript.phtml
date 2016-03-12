@@ -1,0 +1,90 @@
+<h2>Général</h2>
+<h3>Script</h3>
+<div class="note">
+	<pre>
+&lt;script type="text/javascript"&gt;
+&lt;!--
+
+$(document).ready(function(){
+
+
+});
+
+--&gt;
+&lt;/script&gt;
+	</pre>
+</div>
+
+
+<h3>Php array to Js Array</h3>
+<div class="note">
+	<pre>
+&lt;script type="text/javascript" &gt;
+    listeZpeCondense = &lt;?php echo json_encode($zpeCondense); ?&gt;;
+&lt;/script &gt;
+	</pre>
+</div>
+<h3>Faire une redirection</h3>
+<div class="note">
+	<pre>
+window.location.href = 'http://www.url.com';
+	</pre>
+</div>
+
+<h3>Stopper événement</h3>
+<div class="note">
+	<pre>
+$('#identifiant').on('click',function(e) {
+	e.preventDefault();
+	$( "#resiliation-modal" ).dialog( "open" );
+});
+
+OU
+
+return false;
+	</pre>
+</div>
+
+
+<h2>Elément d'ergonomie</h2>
+<h3>Scroll vers élément</h3>
+<div class="note">
+	<pre>
+window.scrollTo(0, $('#identifiant').offset().top);
+	</pre>
+</div>
+
+<h3>Désactiver un champs de formualire</h3>
+<div class="note">
+	<pre>
+$('#identifiant').attr('disabled','disabled');
+	</pre>
+</div>
+
+<h2>Formulaires</h2>
+<h3>Envoyer un formulaire</h3>
+<div class="note">
+	<pre>
+document.forms['form_rubrique1'].method = 'post';
+document.forms['form_rubrique1'].action= '&lt;?=$this-&gt;url(array("validation"=&gt;"0","addIntervenant"=&gt;"1","deleteIntervenant"=&gt;"0","intervenantAdded"=&gt;"1"),"feb_step1");?&gt;' ;
+document.forms['form_rubrique1'].submit();
+	</pre>
+</div>
+<h3>Focus sur le premier champs input de type text</h3>
+<div class="note">
+	<pre>
+$(this).find('input:text:first').focus();
+	</pre>
+</div>
+
+<h2>Gestion des événements</h2>
+<h3>Mouse hover & unhover</h3>
+<div class="note">
+	<pre>
+	$('ol.onglet li').mouseover(function(){
+		console.log('hovered!');
+		}).mouseleave(function(){
+		     console.log('unhovered!');
+	});
+	</pre>
+</div>

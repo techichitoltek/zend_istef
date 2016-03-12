@@ -1,0 +1,91 @@
+<?php
+$now = new Zend_Date();
+$activeEnchereListe = $this->activeEnchereListe; /* @var $activeEnchereListe EnchereSearch */
+
+foreach ($activeEnchereListe as $enchere): /* @var $enchere EnchereSearch */
+	$now = new Zend_Date(/*new Zend_Locale('fr_FR')*/);
+	$start = new Zend_Date($enchere->getEnchere_start(),Zend_Date::ISO_8601);
+	// check date start est supérieure à now
+	if($now->isLater($start)){
+		$produit = $enchere->getProduit(); /* @var $produit CatalogueProduitSearch */
+		$mainImage = $produit->getCatalogue_produits_hasBibliothèque() ?
+		$this->serverUrl().$this->designUrl().'/catalogue/img/'.$produit->getMainImage() : $this->serverUrl().$this->designUrl().'/images/'.ParamCustom::param("FRONTEND.CATALOGUE_DEFAULT_IMAGE","FRONTEND");
+		$fraisport = $produit->getCatalogue_produits_fp() ? '+ '.$produit->getCatalogue_produits_prix_fp().' EUR Frais de port':'Livraison gratuite';
+		$lastTransactionBid = $enchere->getLastTransactionBid(); /* @var $lastTransactionBid TransactionSearch */
+		$currentPrix = $lastTransactionBid->getTransaction_montant() !== null ? $lastTransactionBid->getTransaction_montant() : $enchere->getEnchere_prix_depart();
+		$titre = substr($enchere->getProduit()->getCatalogue_produits_titre(), 0,30);
+		$length = str_word_count($enchere->getProduit()->getCatalogue_produits_titre());
+		debug($length);
+	?>
+            <div class="col-md-3 col-sm-6 hero-feature">
+                <div class="thumbnail">
+                    <img class="hero-thumbnail" src="<?=$mainImage;?>" alt="">
+                    <div class="caption">
+                        <h3><?=$titre;?></h3>
+                        <p>
+							<?php
+							$dateFinEnchere = $fin = new Zend_Date($enchere->getEnchere_end());
+							$dateFinEnchere = $dateFinEnchere->toString('MM/dd/yyyy HH:mm');
+							$newDateTime = date('h:i A', strtotime($dateFinEnchere));
+							?>
+                        </p>
+							<div class="btn btn-default"><?=$currentPrix;?> EUR</div>
+							<br>
+							<?=$fraisport;?>
+							<br>
+                        	<div id="countdown<?=$enchere->getEnchere_id();?>" class="btn btn-primary"></div>
+							<script>
+							CountDownTimer('<?=$fin->toString('MM/dd/yyyy ');?><?=$newDateTime;?>', 'countdown<?=$enchere->getEnchere_id();?>');
+							</script>
+                    </div>
+                </div>
+            </div>
+
+
+
+<!--
+            <div class="col-md-3 col-sm-6 hero-feature">
+                <div class="thumbnail">
+                    <img src="http://placehold.it/800x500" alt="">
+                    <div class="caption">
+                        <h3>Feature Label</h3>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                        <p>
+                            <a href="#" class="btn btn-primary">Buy Now!</a> <a href="#" class="btn btn-default">More Info</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 hero-feature">
+                <div class="thumbnail">
+                    <img src="http://placehold.it/800x500" alt="">
+                    <div class="caption">
+                        <h3>Feature Label</h3>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                        <p>
+                            <a href="#" class="btn btn-primary">Buy Now!</a> <a href="#" class="btn btn-default">More Info</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 hero-feature">
+                <div class="thumbnail">
+                    <img src="http://placehold.it/800x500" alt="">
+                    <div class="caption">
+                        <h3>Feature Label</h3>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                        <p>
+                            <a href="#" class="btn btn-primary">Buy Now!</a> <a href="#" class="btn btn-default">More Info</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+-->
+
+<?php
+	}
+endforeach;
+
+?>
+
+<?php echo $this->render('partials/enchere_pagination.phtml');?>

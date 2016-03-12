@@ -1,0 +1,79 @@
+<?php
+//style="float: left; width: 750px; font:12px/1.5em Arial, Helvetica, sans-serif;text-align:left !important;"
+?>
+<style>
+<!--
+#messages{
+    margin-top:-20px;
+    margin-left:50px;
+    width:700px;
+}
+
+#messages .success-msg, #messages .warning-msg, #messages .error-msg{
+    list-style:none;
+}
+
+-->
+</style>
+<?php if($this->hasSuccessMsg || $this->hasWarningMsg || $this->hasErrorMsg || $this->hasNoticeMsg){?>
+        <?php
+        if($this->hasSuccessMsg){
+        ?>
+            <p class="message-ok">
+            <?php
+            foreach($this->successMsg as $msg){
+            ?>
+                <?=$msg?><br/>
+            <?php
+            }
+            ?>
+            </p>
+        <?php
+        }
+        if($this->hasWarningMsg){
+        ?>
+            <p class="message-alert">
+            <?php
+            foreach($this->warningMsg as $msg){
+            ?>
+                <?=$msg?><br/>
+            <?php
+            }
+            ?>
+            </p>
+        <?php
+        }
+        if($this->hasErrorMsg){
+        ?>
+            <!-- <p class="message-error"> -->
+            <div class="alert alert-danger" role="alert">
+
+            <?php
+            foreach($this->errorMsg as $msg){
+            ?>  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+  				<span class="sr-only">Error:</span>
+                <?=$msg?><br/>
+            <?php
+            }
+            ?>
+            </div>
+            <!-- </p> -->
+        <?php
+        }
+        if($this->hasNoticeMsg){
+        ?>
+            <p class="message-info">
+            <?php
+            foreach($this->noticeMsg as $msg){
+            ?>
+                <?=$msg?><br/>
+            <?php
+            }
+            ?>
+            </p>
+        <?php
+        }
+        ?>
+<?php
+}
+?>

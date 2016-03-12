@@ -1,0 +1,50 @@
+<?php
+$listeParametres = $this->listeParametres;
+$listePortails = $this->listePortails;
+//Zend_Debug::dump($listeParametres);
+?>
+<div class="data-table-header clearfix">
+    <h1>Paramétrage</h1>
+    <a class="button" href="<?=$this->baseUrl()?>/params/checkintegrite">Check Intégrité</a>
+</div>
+
+<div class="data-table">
+    <table cellspacing="0" cellpadding="0">
+        <thead>
+            <tr>
+                <th scope="col" class="first"><span>Param Name</span></th>
+                <th scope="col"><span>Param Scope</span></th>
+                <th scope="col"><span>Param Default</span></th>
+                <th scope="col"><span>Param Commentaire</span></th>
+                <?php
+                foreach ($listePortails as $portail): /* @var $portail Portail */
+                ?>
+                <th scope="col"><span><?=$portail->getPortail_id()?>. <?=$portail->getPortail_libelle()?> (<?=$portail->getPortail_environnement()?>)<br><?=$portail->getPortail_code()?> </span></th>
+                <?php
+                endforeach;
+                ?>
+            </tr>
+        </thead>
+        <tbody>
+        <?php
+        foreach ($listeParametres as $param) : /* @var $param ParamDefault */
+        ?>
+            <tr>
+                <th scope="row"><?=$param->getParamDefault_Name()?></th>
+                <td><?=$param->getParamDefault_Scope()?></td>
+                <td><?=$param->getParamDefault_Value()?></td>
+                <td><?=$param->getParamDefault_Commentaire()?></td>
+                <?php
+                foreach ($listePortails as $portail): /* @var $portail Portail */
+                ?>
+                <td><?=ParamCustom::portailParam($portail->getPortail_id(),$param->getParamDefault_Name(),$param->getParamDefault_Scope())?></td>
+                <?php
+                endforeach;
+                ?>
+            </tr>
+        <?php
+        endforeach;
+        ?>
+        </tbody>
+    </table>
+</div>

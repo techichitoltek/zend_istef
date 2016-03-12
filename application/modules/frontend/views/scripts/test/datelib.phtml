@@ -1,0 +1,131 @@
+<?php
+$dateLib = new DateLib();
+$now = new Zend_Date();
+$now = $now->toString('dd-MM-yyyy');
+$user = $this->user; /* @var $user User */
+?>
+
+<h2>Récupérer date base de données</h2>
+<?php
+
+?>
+<h3>Formater date bdd</h3>
+<?php
+$dateTest = new Zend_Date ($user->getUser_dateAdded(),Zend_Date::ISO_8601);
+$dateTest = $dateTest->toString('dd-MM-yyyy');
+?>
+<div class="note">
+	<pre>
+	$dateTest = new Zend_Date ($user->getUser_dateAdded(),Zend_Date::ISO_8601);
+	$dateTest = $dateTest->toString('dd-MM-yyyy');
+	</pre>
+	<?php
+	echo 'date user added: '.$dateTest;
+	?>
+</div>
+
+<h2>Usage</h2>
+
+
+
+<h3>Se mettre à local FR (récupération mois en lettre...)</h3>
+<div class="note">
+		$date = new Zend_Date(new Zend_Locale('fr_FR')); // à placer en dernier paramètre
+</div>
+
+<h3>Récupérer dernier jour du mois en cours (return dd)</h3>
+<div class="note">
+		$date = new Zend_Date();
+		$lastDay =  date('t',strtotime($date->getIso('fr_FR')));
+</div>
+
+<h3>Temps écoulé entre 2 dates ( comp. heures - minutes - secondes)</h3>
+<div class="note">
+<pre>
+	public function getRangeTimeElapsed($date1,$date2){
+		$date1 = new Zend_Date($date1);
+		$date2 = new Zend_Date($date2);
+		$diff = $date1-&gt;sub($date2)-&gt;toValue();
+		$months = floor( ( (($diff/60)/60) /24) /30);
+		if(floor((($diff/60)/60))       ){
+			$spent = floor((($diff/60/60)));
+			$time = 'heure';
+		} else {
+			$spent = floor(($diff/60)) ? floor(($diff/60)) : floor(($diff));
+			$time = floor(($diff/60)) ? 'minute':'seconde';
+		}
+		$time = (int)$spent&gt;1 ? $time.'s':$time;
+		return $spent.' '.$time;
+	}
+</pre>
+</div>
+
+
+
+
+
+
+
+
+<h2>Ecarts dates</h2>
+<h3>Ecart format jour heure minute seconde / now</h3>
+<div class="note">
+	<?php
+	echo "It happened " .$dateLib-> _friendlySeconds($dateLib->_getDelay('2015-06-25')) . " ago."
+	?>
+</div>
+
+<h3>Ecart secondes / now</h3>
+<div class="note">
+<?php
+echo "It happened " .$dateLib-> _friendlySeconds($dateLib->_getDelay('2015-06-25'),'secondes') . "secondes ago."
+?>
+</div>
+
+
+<h3>Ecart jours / now</h3>
+<div class="note">
+<?php
+echo "It happened " .$dateLib-> _friendlySeconds($dateLib->_getDelay('2015-06-25'),'jours') . " day ago."
+?>
+</div>
+
+<h3>Ecart en 2 dates</h3>
+<div class="note">
+<?php
+echo "It happened " .$dateLib-> _friendlySeconds($dateLib->_getDelay('2015-06-25','2015-06-29'),'jours') . " day ago."
+?>
+</div>
+
+<h2>Get relative time</h2>
+<h3>Donne temps relatif / now</h3>
+<div class="note">
+<?php
+echo $dateLib->_getRelativeTime('2015-07-05');
+?>
+</div>
+
+<h3>Savoir si date inférieur / supérieur now</h3>
+<div class="note">
+<?php
+
+echo '2015-07-05 is '.$dateLib->_getRelativeTime('2015-07-05',true). ' than '.$now;
+?>
+</div>
+
+<h3>Savoir si date inférieur / supérieur autre date</h3>
+<div class="note">
+<?php
+$dateFrom = '01-02-2016';
+echo '2015-07-05 is '.$dateLib->_getRelativeTime('2015-07-05',true,$dateFrom). ' than '.$dateFrom;
+?>
+</div>
+
+
+
+
+
+
+
+
+

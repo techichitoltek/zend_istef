@@ -1,0 +1,45 @@
+<?php
+/**
+ * Robot layout, used to render most parts of the robot application
+ *
+ * @package frontend_layouts
+ * @copyright RCWEB
+ */
+
+//Configure the title
+$this->headTitle()->setSeparator(' - ');
+$this->headTitle('a title');
+
+//$bodyClass = Zend_Registry::get('controllerName') . Zend_Registry::get('actionName');
+$bodyClass = Zend_Registry::get('controllerName');
+
+//Add the ZFDebug Toolbar only if enabled in app.ini
+if(Zend_Controller_Front::getInstance()->hasPlugin('ZFDebug_Controller_Plugin_Debug')){
+    $this->headScript()->appendFile($this->designUrl() . '/js/zfdebug.js');
+    $this->headLink()->appendStylesheet($this->designUrl() . '/css/zfdebug.css');
+}
+
+?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="content-style-type" content="text/css" />
+    <meta http-equiv="content-script-type" content="text/javascript" />
+
+    <meta name="description" content="Plateforme de dematerialisation" />
+    <meta name="keywords" content="E-BTP Marchés" />
+
+    <link rel="shortcut icon" type="image/ico" href="/favicon.ico" />
+
+    <?php echo $this->headTitle() . PHP_EOL;?>
+
+
+
+    <?php echo $this->headLink() . PHP_EOL;?>
+</head>
+<body id='admin' class="<?php echo $bodyClass;?>">
+    <?php echo $this->layout()->content;?>
+    <!-- add the js files -->
+    <?php echo $this->headScript() . PHP_EOL;?>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<?php
+$categories = new CatalogueCategorie();
+$liste = $categories->getListe();
+debug($liste);
+?>
+Liste des catégories<br>
+===============================
+<br><br>
+<ul>
+<?php
+foreach ($liste as $categorie): /* @var $categorie CatalogueCategorie */
+?>
+	<li><?=$categorie->getCatalogue_categorie_libelle();?></li>
+<?php
+endforeach;
+?>
+</ul>

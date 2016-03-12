@@ -1,0 +1,30 @@
+<?php
+$test_results = $this->test_results;
+$lowest = $this->lowest;
+$highest = $this->highest;
+$j = $this->j;
+$AverageAll = $this->AverageAll;
+$test2 = $this->test2;
+$PHP_SELF = $this->PHP_SELF;
+$iterations = $this->iterations;
+$iterations2 = $this->iterations2;
+$tquery2 = $this->tquery2;
+$test = $this->test;
+$TimesSum = $this->TimesSum;
+
+?>
+<h1>TD PHP Benchmark Performance Script</h1>
+<p><b><font face=Arial color="#999999" size=4>
+<?
+
+echo $test_results;
+echo "<br>Lowest time: $lowest ms , Highest time : $highest ms<br>\n";
+echo "Average of all $j times: <font size=\"+2\">$AverageAll ms</font><br>\n";
+if($test2>2)
+{
+    $j-=2;
+    $AverageMid = round(($TimesSum-$lowest-$highest)/$j);
+    echo "Average of middle $j times: <font size=\"+2\">$AverageMid ms</font><br>\n";
+}
+echo '<br><a href="'.$this->url().'">Begin again</a>';
+if($test<$iterations2) echo ' | <a href="' . $this->url() . '?' . $tquery2 . '">Stop</a> | <font color=red>Doing ' . $iterations . ' iterations. Refreshing in 5 seconds...</font><br>';

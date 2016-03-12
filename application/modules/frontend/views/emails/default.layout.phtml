@@ -1,0 +1,17 @@
+<html>
+    <body>
+        <div style="border:1px solid #6C7CBF;width:950px;">
+            <img src="<?=$this->serverUrl().$this->designUrl()?>/images/fond_mail.jpg"/>
+            <div style='font-family: "lucida sans unicode","lucida grande",sans-serif;color: #737373;font-size: 12px;padding: 30px;'>
+                <?php echo $this->layout()->content; ?>
+                <p>
+                    <?=ParamCustom::param("NOM.APPLI","FRAMEWORK");?><br />
+                    <a href="<?=ParamCustom::param("FRONTEND.FRONTEND_URL","FRONTEND");?>">cliquer ici</a>
+                </p>
+                <br />
+                <p>Ceci est un email automatique, veuillez ne pas y répondre. Si vous avez besoin d'assistance, merci de contacter <a href='mailto:marches@e-btp.fr'>marches@e-btp.fr</a></p>
+            </div>
+        </div>
+
+    </body>
+</html>

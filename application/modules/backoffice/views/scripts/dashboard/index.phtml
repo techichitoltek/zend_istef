@@ -1,0 +1,60 @@
+<?php
+$listeUserOnline = $this->listeUserOnline;
+$webUser = $this->webUser; /* @var $webUser App_WebUser */
+?>
+<div class="data-table">
+    <table cellspacing="0" cellpadding="0">
+        <thead>
+            <tr>
+                <th scope="col" class="first"><span>ID</span></th>
+                <th scope="col"><span>IP</span></th>
+                <th scope="col"><span>Url</span></th>
+                <th scope="col"><span>Bot</span></th>
+                <th scope="col"><span>UserAgent</span></th>
+                <th scope="col"><span>Temps de traitement</span></th>
+                <th scope="col"><span>Temps de réponse</span></th>
+                <th scope="col"><span>Page précédente</span></th>
+                <th scope="col"><span>Durée navigation</span></th>
+                <th scope="col"><span>Arrivée sur le site</span></th>
+                <th scope="col"><span>Dernière page visitée</span></th>
+                <!-- <th scope="col" class="last"><span>Action</span></th> -->
+            </tr>
+        </thead>
+        <tbody>
+        <?php
+        foreach ($listeUserOnline as $online): /* @var $online Online */
+            $url = "";
+            if($webUser->get_ip() == $online->getOnline_ip()){
+                $color="red";
+                $txt = " (c'est vous!) ";
+            }else{
+                $color="";
+                $txt="";
+            }
+            $url .= "<a href=\"http://www.ripe.net/perl/whois?form_type=simple&full_query_string=&searchtext=".$online->getOnline_ip()."&do_search=Search\" target=\"_blank\" title=\"+ d'infos sur cette adresse IP...\" class=\"textgris\"> ".$online->getOnline_ip()."</a>";
+        ?>
+            <tr>
+                <th scope="row"><?=$online->getOnline_id()?></th>
+                <td><font color="<?=$color?>"><?=$online->getOnline_ip().$txt?><br/><?=$url?></font></td>
+                <td><?=$online->getOnline_portailUrl().$online->getOnline_url()?></td>
+                <td><?=$online->getOnline_isBot()?></td>
+                <td><?=$online->getOnline_userAgent()?></td>
+                <td><?=number_format($online->getOnline_timeGeneration(),0,',',' ')?> ms.</td>
+                <td><?=number_format($online->getOnline_timeGenerationTotal(),0,',',' ')?> ms.</td>
+                <td><?=$online->getOnline_referrer()?></td>
+                <td><?=$online->getOnlineDuration()?></td>
+                <td><?=$online->getOnline_dateAdded()?></td>
+                <td><?=$online->getOnline_dateUpdated()?></td>
+                <!-- <td>
+                    <ul class="actions">
+                        <li><a href="#" class="edit">Edit</a></li>
+                        <li><a href="#" class="delete">Delete</a></li>
+                    </ul>
+                </td> -->
+            </tr>
+        <?php
+        endforeach;
+        ?>
+        </tbody>
+    </table>
+</div>

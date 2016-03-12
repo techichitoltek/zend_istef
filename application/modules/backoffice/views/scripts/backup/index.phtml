@@ -1,0 +1,37 @@
+<?php
+$listeBackups = $this->listeBackups;
+?>
+<div class="data-table">
+    <table cellspacing="0" cellpadding="0">
+        <thead>
+            <tr>
+                <th scope="col" class="first"><span>ID</span></th>
+                <th scope="col"><span>Date</span></th>
+                <th scope="col"><span>Type</span></th>
+                <th scope="col"><span>Path</span></th>
+                <th scope="col"><span>Check</span></th>
+                <th scope="col"><span>Durée</span></th>
+                <th scope="col"><span>Taille</span></th>
+                <th scope="col" class="last"><span>State</span></th>
+            </tr>
+        </thead>
+        <tbody>
+        <?php
+        foreach ($listeBackups as $backup): /* @var $backup Backup */
+        ?>
+            <tr>
+                <th scope="row"><?=$backup->getBackup_id()?></th>
+                <td><?=$backup->getBackup_dateAdded()?></td>
+                <td><?=$backup->getBackup_type()?></td>
+                <td><?=$backup->getBackup_path()?></td>
+                <td><?=file_exists($backup->getBackup_path()) ? "Ok":"Purgé"?></td>
+                <td><?=$backup->getDuration()?></td>
+                <td><?=App_Tools::human_filesize($backup->getBackup_size())?></td>
+                <td><?=$backup->getBackup_state()?></td>
+            </tr>
+        <?php
+        endforeach;
+        ?>
+        </tbody>
+    </table>
+</div>

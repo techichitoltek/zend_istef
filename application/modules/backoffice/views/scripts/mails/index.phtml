@@ -1,0 +1,41 @@
+<?php
+$listeEmails = $this->listeEmails;
+?>
+<a href="<?$this->baseUrl()?>/mails/test">Test envoi de mail</a>
+
+<div class="data-table">
+    <table cellspacing="0" cellpadding="0">
+        <thead>
+            <tr>
+                <th scope="col" class="first"><span>ID</span></th>
+                <th scope="col"><span>Mail Name</span></th>
+                <th scope="col"><span>Layout</span></th>
+                <th scope="col"><span>Template</span></th>
+                <th scope="col"><span>Vars</span></th>
+                <th scope="col"><span>Check Vars</span></th>
+                <th scope="col"><span>From Name</span></th>
+                <th scope="col"><span>From Mail</span></th>
+                <th scope="col" class="last"><span>Preview</span></th>
+            </tr>
+        </thead>
+        <tbody>
+        <?php
+        foreach ($listeEmails as $email) : /* @var $email Email */
+        ?>
+            <tr>
+                <th scope="row"><?=$email->getEmail_id()?></th>
+                <td><a href="#"><?=$email->getEmail_name()?></a></td>
+                <td><?=$email->getEmail_layout()?></td>
+                <td><?=$email->getEmail_template()?></td>
+                <td><?=$email->getEmail_vars()?></td>
+                <td><?=$email->checkVars() ? "OK":"KO";?></td>
+                <td><?=$email->getEmail_fromName()?></td>
+                <td><?=$email->getEmail_fromMail()?></td>
+                <td>Preview</td>
+            </tr>
+        <?php
+        endforeach;
+        ?>
+        </tbody>
+    </table>
+</div>

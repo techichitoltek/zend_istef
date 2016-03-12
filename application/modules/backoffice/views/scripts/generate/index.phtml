@@ -1,0 +1,38 @@
+<?php
+$listTables = $this->listTables;
+?>
+<div class="data-table">
+    <table cellspacing="0" cellpadding="0">
+        <thead>
+            <tr>
+                <th scope="col" class="first"><span>ID</span></th>
+                <th scope="col"><span>Table</span></th>
+                <th scope="col"><span>Objet</span></th>
+                <th scope="col"><span>Préfixe</span></th>
+                <th scope="col"><span>Commentaire</span></th>
+                <th scope="col"><span>Date de modification</span></th>
+                <th scope="col"><span>Nb enregistrements</span></th>
+            </tr>
+        </thead>
+        <tbody>
+        <?php
+        $i=0;
+        foreach ($listTables as $table => $tableInfo):
+        ?>
+            <form action="<?=$this->url(array("table"=>$table),"generate")?>" method="get" id="form_<?=$table?>" name="form_<?=$table?>">
+                <tr>
+                    <th scope="row"><?=$i++?></th>
+                    <td><a href="javascript:document.getElementById('form_<?=$table?>').submit();"><?=$tableInfo->Name?></a></td>
+                    <td><input type="text" name="objet"/></td>
+                    <td><input type="text" name="prefixe"/></td>
+                    <td><?=$tableInfo->Comment?></td>
+                    <td><?=$tableInfo->Update_time?></td>
+                    <td><?=$tableInfo->Rows?></td>
+                </tr>
+            </form>
+        <?php
+        endforeach;
+        ?>
+        </tbody>
+    </table>
+</div>

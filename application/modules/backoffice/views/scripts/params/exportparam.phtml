@@ -1,0 +1,70 @@
+<form action="<?= $this->url(); ?>" method="POST">
+<table cellspacing="0" cellpadding="0" width="100%" border="1">
+    <tr>
+        <td> - </td>
+        <td>Paramètres</td>
+        <td>Commentaire</td>
+        <td>Tables</td>
+    </tr>
+<?php
+    foreach ($this->tabParametres as $keyObject => $object) {
+?>
+    <tr>
+        <td><?= $this->formCheckbox($keyObject, "", array('class'=>'input'), array("1","0")); ?></td>
+        <td><?= $object['libelle']?>&nbsp;</td>
+        <td><?= $object['commentaire']?>&nbsp;</td>
+        <td><?PHP
+        foreach($object['tables'] as $table){
+            echo $table."<br>";
+        }
+        ?></td>
+    </tr>
+<?php
+    }
+?>
+</table>
+<br/><br/>
+<?= $this->formSubmit('submit', 'Exporter', array('class'=>'input','size'=>'10')); ?>
+</form>
+
+<?php
+if($this->sql){
+?>
+<form name="down">
+  <div align="center"><center><p><textarea name="body" input="text" cols="225" rows="25" wrap="off" style="background-color: #ffffcc;width:1200px;" >
+<?= $this->sql ?>
+</textarea></p>
+  </center></div>
+</form>
+
+<p align="center"><input type="button" onclick="javascript:HighlightAll('down.body')"
+style="font-family: Arial,Verdana,Helvetica;font-size: 11px; color:#330033 ;font-weight:bold;background-color: #FFCC00;width:450px"
+value="Cliquez pour sélectionner ce code. Copie automatique dans le presse-papiers" span
+TITLE="Vous n'avez plus qu'à le coller dans vos pages"> <br>
+</p>
+
+<!-- DEBUT DU SCRIPT SELECTION/COPIE-->
+<script language="Javascript">
+<!--
+//specify whether contents should be auto copied to clipboard (memory)
+//Applies only to IE 4+
+//0=no, 1=yes
+var copytoclip=1
+
+function HighlightAll(theField) {
+var tempval=eval("document."+theField)
+tempval.focus()
+tempval.select()
+if (document.all&&copytoclip==1){
+therange=tempval.createTextRange()
+therange.execCommand("Copy")
+window.status="Contenu sélectionné et copié dans le presse-papier"
+setTimeout("window.status=''",1800)
+}
+}
+//-->
+</script>
+<!-- FIN DU SCRIPT SELECTION/COPIE-->
+<?php
+
+}

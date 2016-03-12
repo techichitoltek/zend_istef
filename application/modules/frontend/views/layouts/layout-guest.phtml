@@ -1,0 +1,167 @@
+<?php
+/**
+ * Default layout, used to render most parts of the application
+ *
+ * @package frontend_layouts
+ * @copyright RCWEB
+ */
+
+//Configure the title
+$this->headTitle()->setSeparator(' - ');
+$this->headTitle(ParamCustom::param("NOM.APPLI","FRAMEWORK").' - Enchères online');
+
+//Add generic CSS files
+$this->headLink()->appendStylesheet($this->designUrl() . '/css/master.css');
+
+// add jQuery ressources
+/*$this->headLink()->appendStylesheet($this->designUrl() . '/css/jquery-ui.css');
+$this->headScript()->appendFile($this->designUrl() . '/js/jquery.min.js');
+$this->headScript()->appendFile($this->designUrl() . '/js/jquery-ui.min.js');*/
+
+
+//Add the ZFDebug Toolbar only if enabled in app.ini
+if(Zend_Controller_Front::getInstance()->hasPlugin('ZFDebug_Controller_Plugin_Debug')){
+    $this->headScript()->appendFile($this->designUrl() . '/js/zfdebug.js');
+    $this->headLink()->appendStylesheet($this->designUrl() . '/css/zfdebug.css');
+}
+
+
+
+//Autoload js files
+$this->AutoloadResources();
+
+$moteur = Zend_Registry::get('controllerName');
+$action = Zend_Registry::get('actionName');
+$portailId = Zend_Registry::get('PortailId');
+debug($portailId);
+
+?>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <?php echo $this->headTitle() . PHP_EOL;?>
+
+    <link rel="shortcut icon" type="image/ico" href="/favicon.ico" />
+
+
+	<script src="<?php echo $this->serverUrl().$this->designUrl();?>/guest-template/js/jquery.js?<?=mt_rand();?>"></script>
+
+
+    <!-- Bootstrap Core CSS -->
+    <?php $this->headLink()->appendStylesheet($this->designUrl() . '/guest-template/css/bootstrap.min.css');?>
+
+    <!-- Custom CSS -->
+    <?php $this->headLink()->appendStylesheet($this->designUrl() . '/guest-template/css/heroic-features.css');?>
+
+    <!-- Down Counter css -->
+    <?php $this->headLink()->appendStylesheet($this->designUrl() . '/css/downcount.css');?>
+
+    <!-- downcounter -->
+	<script src="<?php echo $this->serverUrl().$this->designUrl();?>/js/downcount.js?<?=mt_rand();?>"></script>
+
+
+	<!-- MAIN FILES GUEST -->
+
+
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+	<?php //$this->headLink()->appendStylesheet($this->designUrl() . '/css/font-awesome-4.4/font-awesome.min.css');?>
+
+    <!-- Ionicons -->
+	<?php $this->headLink()->appendStylesheet($this->designUrl() . '/css/Ionicons-2_0_1/ionicons.min.css');?>
+
+	<!-- LTE style -->
+	<?php $this->headLink()->appendStylesheet($this->designUrl() . '/lte-template/css/AdminLTE.min.css');?>
+
+
+	    <!-- AdminLTE Skins. Choose a skin from the css/skins
+	         folder instead of downloading all of them to reduce the load. -->
+	         <?php $this->headLink()->appendStylesheet($this->designUrl() . '/lte-template/css/skins/_all-skins.min.css');?>
+
+	    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	    <!--[if lt IE 9]>
+	        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+	        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	    <![endif]-->
+
+
+	<!-- Main css -->
+	<?php $this->headLink()->appendStylesheet($this->designUrl() . '/css/executive-project.css');?>
+
+
+	<!-- Last product css -->
+	<?php $this->headLink()->appendStylesheet($this->designUrl() . '/css/last_products.css');?>
+
+
+    <?php echo $this->headTitle() . PHP_EOL;?>
+    <?php echo $this->headLink() . PHP_EOL;?>
+
+</head>
+
+
+<body class="hold-transition skin-blue sidebar-mini">
+
+	<?php echo $this->partial('partials/guest-header.phtml'); ?>
+
+    <!-- Page Content -->
+    <div class="container">
+    	<?php echo $this->layout()->content;?>
+        <!-- Footer -->
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>Copyright &copy; Your Website 2014</p>
+                </div>
+            </div>
+        </footer>
+
+
+    </div>
+    <!-- /.container -->
+
+    <!-- jQuery -->
+    <!-- <script src="<?php echo $this->serverUrl().$this->designUrl();?>/guest-template/js/jquery.js?<?=mt_rand();?>"></script> -->
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="<?php echo $this->serverUrl().$this->designUrl();?>/guest-template/js/bootstrap.min.js?<?=mt_rand();?>"></script>
+
+
+    <!-- LTE js files -->
+
+    <!-- jQuery 2.1.4 -->
+    <!-- <script src="../../plugins/jQuery/jQuery-2.1.4.min.js"></script> -->
+
+
+
+
+    <!-- Bootstrap 3.3.5 -->
+    <!-- <script src="../../bootstrap/js/bootstrap.min.js"></script> -->
+
+    <!-- FastClick -->
+    <script src="<?php echo $this->serverUrl().$this->designUrl();?>/lte-template/plugins/fastclick/fastclick.min.js"></script>
+
+    <!-- AdminLTE App -->
+    <!-- config  -->
+    <!-- <script src="<?php echo $this->serverUrl().$this->designUrl();?>/lte-template/js/app.min.js"></script> -->
+
+    <!-- AdminLTE for demo purposes -->
+    <!-- config  -->
+    <script src="<?php echo $this->serverUrl().$this->designUrl();?>/lte-template/js/demo.js"></script>
+
+ 	<!-- end LTE js files -->
+
+
+    <?php echo $this->headScript() . PHP_EOL;?>
+    <?php if(Zend_Registry::get('IS_PRODUCTION')) : ?>
+        <?php echo $this->partial('partials/ga.phtml'); ?>
+    <?php endif; ?>
+</body>
+
+</html>

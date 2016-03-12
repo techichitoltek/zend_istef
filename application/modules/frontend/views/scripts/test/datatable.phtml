@@ -1,0 +1,86 @@
+<!-- DataTables CSS -->
+<link type="text/css" href="<?php echo $this->serverUrl().$this->designUrl();?>/lib/DataTables-1.10.7/media/css/jquery.dataTables.css?<?=mt_rand();?>" rel="stylesheet">
+<link type="text/css" href="<?php echo $this->serverUrl().$this->designUrl();?>/lib/DataTables-1.10.7/extensions/TableTools/css/dataTables.tableTools.min.css?<?=mt_rand();?>" rel="stylesheet" />
+
+<style>
+#table_id_wrapper {
+width:500px;
+}
+</style>
+
+
+<table id="table_id" class="display">
+    <thead>
+        <tr>
+            <th>Column 1</th>
+            <th>Column 2</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Row 1 Data 1</td>
+            <td>Row 1 Data 2</td>
+        </tr>
+        <tr>
+            <td>Row 2 Data 1</td>
+            <td>Row 2 Data 2</td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- DataTables -->
+<script src="<?php echo $this->serverUrl().$this->designUrl();?>/lib/DataTables-1.10.7/media/js/jquery.dataTables.js?<?=mt_rand();?>"></script>
+<script src="<?php echo $this->serverUrl().$this->designUrl();?>/lib/DataTables-1.10.7/extensions/TableTools/js/dataTables.tableTools.js?<?=mt_rand();?>"></script>
+
+<script type="text/javascript" language="javascript" class="init">
+$(document).ready(function() {
+ 	$('#table_id').DataTable( {
+        "sDom": "T<'clear'><'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>",
+    	"oLanguage": {
+    		"sLengthMenu": "Afficher _MENU_ &eacute;lements",
+    		"sSearch": "Rechercher&nbsp",
+    		"sEmptyTable": "Aucun r&eacute;sultat.",
+    		"sZeroRecords": "Aucun résultat",
+    		"sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+    		"sInfoEmpty": "Aucun élément à afficher",
+    	    "oPaginate": {
+    	        "sFirst":    "Premier",
+    	        "sLast":    "Dernier",
+    	        "sNext":    "Suivant",
+    	        "sPrevious": "Pr&eacute;c&eacute;dent"
+    	      },
+    	},
+        "oTableTools": {
+        	"sSwfPath": "default/lib/DataTables-1.10.7/extensions/TableTools/swf/copy_csv_xls_pdf.swf",
+            // CDN : "sSwfPath": "http://cdn.datatables.net/tabletools/2.2.2/swf/copy_csv_xls.swf",
+                                                  "aButtons": [
+                                                                 "print", // méthode ne fonctionne pas pour le bouton print
+                                                      {
+                                                          "sExtends": "csv",
+                                                          "sButtonText": "Special columns csv without link last col",
+                                                          "mColumns": [ 0, 1, 2, 3 ]
+                                                      },
+                                                      {
+                                                          "sExtends": "xls",
+                                                          /*"sButtonText": "Special columns XLS without link last col",*/
+                                                          "mColumns": [ 0, 1, 2, 3 ] // ici on souhaite afficher pour l'export la 1ere,2ème, 3ème et 4ème colonne
+                                                      },
+                                                      {
+                                                          "sExtends": "copy",
+                                                          /*"sButtonText": "Special columns copy without link last col",*/
+                                                          "mColumns": [ 0, 1, 2, 3 ]
+                                                      },
+                                                  ]
+/*	        "aButtons": [
+                  "copy",
+                  "csv",
+                  "xls",
+                  "print"
+            ]*/
+          },
+        "iDisplayLength": 50,
+        "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+        "aaSorting": []
+ 	} );
+ } );
+</script>
