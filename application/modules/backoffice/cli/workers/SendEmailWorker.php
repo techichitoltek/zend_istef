@@ -40,7 +40,7 @@ while($worker->work()) {
         case GEARMAN_SUCCESS:
             break;
         default:
-            echo sprintf("%s: Error ocurred: %s\n", date('r'), $worker->returnCode());
+            echo sprintf("%s: Error occurred: %s\n", date('r'), $worker->returnCode());
             exit;
     }
 }

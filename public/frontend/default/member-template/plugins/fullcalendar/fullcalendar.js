@@ -886,7 +886,7 @@ function makeMoment(args, parseAsUTC, parseZone) {
 
 	if (moment.isMoment(input)) {
 		mom = moment.apply(null, args); // clone it
-		transferAmbigs(input, mom); // the ambig flags weren't transfered with the clone
+		transferAmbigs(input, mom); // the ambig flags weren't transferred with the clone
 	}
 	else if (isNativeDate(input) || input === undefined) {
 		mom = moment.apply(null, args); // will be local
@@ -946,7 +946,7 @@ function makeMoment(args, parseAsUTC, parseZone) {
 newMomentProto.clone = function() {
 	var mom = oldMomentProto.clone.apply(this, arguments);
 
-	// these flags weren't transfered with the clone
+	// these flags weren't transferred with the clone
 	transferAmbigs(this, mom);
 	if (this._fullCalendar) {
 		mom._fullCalendar = true;

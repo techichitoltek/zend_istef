@@ -114,7 +114,7 @@ $(function () {
     width: '80'
   });
 
-  //The Calender
+  //The Calendar
   $("#calendar").datepicker();
 
   //SLIMSCROLL FOR CHAT WIDGET

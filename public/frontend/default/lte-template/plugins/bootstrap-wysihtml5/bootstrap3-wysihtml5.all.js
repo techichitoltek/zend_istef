@@ -8306,7 +8306,7 @@ wysihtml5.dom.query = function(elements, query) {
 **/
 
 /* Modern event.clipboardData driven approach.
- * Advantage is that it does not have to loose selection or modify dom to catch the data. 
+ * Advantage is that it does not have to lose selection or modify dom to catch the data. 
  * IE does not support though.
 **/
 wysihtml5.dom.getPastedHtml = function(event) {

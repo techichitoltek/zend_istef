@@ -88,8 +88,8 @@ class ApiController extends App_Filrouge_Controller
     {
     	$response_type = $this->getRequest()->getParam('typeresponse',null);
 		$model_incident = new Incident();
-		$reponse = $model_incident->getIncidentByLocationResponse($response_type,43.2967,5.37639,5);
-		echo $reponse;
+		$response = $model_incident->getIncidentByLocationResponse($response_type,43.2967,5.37639,5);
+		echo $response;
     }
 
     /**
@@ -108,22 +108,22 @@ class ApiController extends App_Filrouge_Controller
     			switch ($_POST['wstype']){
     				case 'incident':
     					$new_signalement = new Signalement();
-    					$reponse = $new_signalement->addSignalement($_POST['userId'],$_POST['lat'],$_POST['long'],$_POST['commentaire']);
+    					$response = $new_signalement->addSignalement($_POST['userId'],$_POST['lat'],$_POST['long'],$_POST['commentaire']);
     				break;
     				case 'myaccount':
 
     				break;
     				default:
-    					$reponse =  'Parmatère wstype incorrecte';
+    					$response =  'Parmatère wstype incorrecte';
     				break;
     			}
     		} else {
-    			$reponse =  'Paramètres manquants';
+    			$response =  'Paramètres manquants';
     		}
     	} else {
-    		$reponse = 'Requete is not a POST request';
+    		$response = 'Requete is not a POST request';
     	}
-		echo $reponse;
+		echo $response;
 
     }
 

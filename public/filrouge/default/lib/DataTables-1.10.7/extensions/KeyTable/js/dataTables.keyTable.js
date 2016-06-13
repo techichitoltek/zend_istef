@@ -857,7 +857,7 @@ KeyTable = function ( oInit )
 
 	/*
 	 * Function: _fnCellFromCoords
-	 * Purpose:  Calulate the target TD cell from x and y coordinates
+	 * Purpose:  Calculate the target TD cell from x and y coordinates
 	 * Returns:  node: - TD target
 	 * Inputs:   int:x - x coordinate
 	 *           int:y - y coordinate

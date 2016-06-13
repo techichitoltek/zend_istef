@@ -1560,7 +1560,7 @@
                             }
                         });
                         break;
-                    case "getemptymask": //return the default (empty) mask value, usefull for setting the default value in validation
+                    case "getemptymask": //return the default (empty) mask value, useful for setting the default value in validation
                         if (this.data('_inputmask')) {
                             masksets = this.data('_inputmask')['masksets'];
                             activeMasksetIndex = this.data('_inputmask')['activeMasksetIndex'];
