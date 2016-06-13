@@ -213,7 +213,7 @@ class ZF
     }
     
     /**
-     * _detectStorageDirectory() - Detect where the storage directory is from a variaty of possiblities
+     * _detectStorageDirectory() - Detect where the storage directory is from a variaty of possibilities
      * 
      * @param $mustExist Should the returned value already exist in the file system
      * @param $returnMessages Should it log messages for output later

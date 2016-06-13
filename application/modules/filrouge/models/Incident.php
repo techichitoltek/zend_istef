@@ -242,13 +242,13 @@ class Incident extends App_Model_Std {
 		if(count($liste_incident)){
 			switch ($typeResponse){
 				case 'xml':
-					$reponse = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>';
-					$reponse .= '<root>';
+					$response = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>';
+					$response .= '<root>';
 					foreach ($liste_incident as $incident): /* @var $incident Incident */
 					$type_incident_libelle = $incident->getTypeIncident()->getType_libelle();
 					$user = $incident->getUser();
 
-					$reponse .= '<incident id="'.$incident->getIncident_id().
+					$response .= '<incident id="'.$incident->getIncident_id().
 					'" nbsignalement="'.$incident->getIncident_nbsignalements().
 					'" typeincident="'.$type_incident_libelle
 					.'" commentaire="'.$incident->getIncident_commentaire()
@@ -256,14 +256,14 @@ class Incident extends App_Model_Std {
 					.'" avatar="'.$user->getUser_avatar()
 					.'"/>';
 					endforeach;
-					$reponse .= '</root>';
+					$response .= '</root>';
 					break;
 				case 'json':
-					$reponse = '';
+					$response = '';
 					foreach ($liste_incident as $incident): /* @var $incident Incident */
 					$type_incident_libelle = $incident->getTypeIncident()->getType_libelle();
 					$user = $incident->getUser();
-					$reponse .= '{"id":"'.$incident->getIncident_id().'", "nbsignalement":"'.$incident->getIncident_nbsignalements()
+					$response .= '{"id":"'.$incident->getIncident_id().'", "nbsignalement":"'.$incident->getIncident_nbsignalements()
 					.'", "typeincident":"'.$type_incident_libelle
 					.'", "commentaire":"'.$incident->getIncident_commentaire()
 					.'", "pseudo":"'.$user->getUser_pseudo()
@@ -273,14 +273,14 @@ class Incident extends App_Model_Std {
 					break;
 
 				default:
-					$reponse = 'Erreur : paramètre type de réponse manquant';
+					$response = 'Erreur : paramètre type de réponse manquant';
 					break;
 			}
 		} else {
-			$reponse = 'Aucun incident à signalé';
+			$response = 'Aucun incident à signalé';
 		}
 
-		return $reponse;
+		return $response;
 	}
 
 
